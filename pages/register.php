@@ -33,7 +33,7 @@
             </form>
         </div>
         <div class="logo-container">
-            <img src="your-logo-url-here.png" alt="Cupang West Logo">
+            <img src="../images/logo-cupang.png" alt="Cupang West Logo">
         </div>
     </div>
     <script src="createacc.js"></script>
