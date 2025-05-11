@@ -1,3 +1,6 @@
+<?php
+    include("../database.php")
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,13 +25,16 @@
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <p id="p2">Don't have an account yet? <a href="#">Create Account</a></p>
+            <p id="p2">Don't have an account yet? <a href="register.php">Create Account</a></p>
         </div>
         <div class="right">
             <h2>Cupang West Management System</h2>
-            <img src="logo.png" alt="Cupang West Logo">
+            <img src="../images/logo-cupang.png" alt="Cupang West Logo">
         </div>
     </div>
     <script src="login.js"></script>
 </body>
 </html>
+<?php
+    mysqli_close($conn);
+?>
