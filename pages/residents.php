@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Management</title>
-    <link rel="stylesheet" href="resi.css">
+    <link rel="stylesheet" href="../assets/css/residents.css">
 </head>
 <body>
     <div class="sidebar">
