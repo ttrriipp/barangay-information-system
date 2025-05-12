@@ -1,5 +1,5 @@
 <?php
-    include("../database.php")
+    //include("../database.php")
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,11 +14,11 @@
         <div class="left">
             <h1>Welcome</h1>
             <p>Please enter your details</p>
-            <form id="loginForm">
+            <form id="loginForm" method="">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="user" required>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="pass" required>
                 <div class="remember-me">
                     <input type="checkbox" id="rememberMe" name="rememberMe">
                     <label for="rememberMe">Remember me</label>
@@ -35,6 +35,3 @@
     <script src="login.js"></script>
 </body>
 </html>
-<?php
-    mysqli_close($conn);
-?>
