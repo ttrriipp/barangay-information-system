@@ -1,0 +1,26 @@
+<div class="sidebar">
+        <div class="profile">
+            <img src="../assets/images/user-placeholder.svg" alt="Profile Image">
+            <h3>Admin</h3>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.php"><i class="material-icons">dashboard</i>Dashboard</a></li>
+                <li><a href="residents.php"><i class="material-icons">people</i>Resident Management</a></li>
+                <li><a href="reports.php"><i class="material-icons">assessment</i>Reports</a></li>
+                <li><a href="services.php"><i class="material-icons">miscellaneous_services</i>Services</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div>
+                <img src="../assets/images/user-placeholder.svg" alt="User Image">
+            </div>
+            <div>
+                <p>Name</p>
+                <p>username</p>
+            </div>
+            <div>
+                <a href="login.php"><i class="material-icons">logout</i></a>
+            </div>
+        </div>
+    </div>

@@ -1,14 +1,5 @@
-<?php
-    include("../database.php");
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
-    <link rel="stylesheet" href="../assets/css/register.css">
-</head>
+<?php  $style = 'register.css';
+    require("partials/head.php") ?>
 <body>
     <div class="container">
         <div class="form-container">
@@ -37,20 +28,4 @@
         </div>
     </div>
     <script src="createacc.js"></script>
-</body>
-</html>
-<?php
-    if( $_SERVER["REQUEST_METHOD"] == "POST")   {
-        $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
-        $pass = filter_input(INPUT_POST, "pass", FILTER_SANITIZE_SPECIAL_CHARS);
-        $sql = "INSERT INTO creataccdb (username, password)
-                VALUES ('$user','$pass')";
-        try{
-            mysqli_query($conn, $sql);
-            echo '<script>alert("You have successfully registered an account!")</script/>';
-        }
-        catch(mysqli_sql_exception){
-            echo '<script>alert("That username is taken, please change your username!")</script/>';
-        }
-    }
-?>
+<?php require("partials/foot.php") ?>
