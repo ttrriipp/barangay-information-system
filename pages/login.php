@@ -4,7 +4,7 @@
         <div class="left">
             <h1>Welcome</h1>
             <p>Please enter your details</p>
-            <form id="loginForm" method="">
+            <form id="loginForm" action="<?php htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="user" required>
                 <label for="password">Password:</label>
