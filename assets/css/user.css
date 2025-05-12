@@ -1,0 +1,408 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Accounts for fixed header height */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Header Styles */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: #2c1e81;
+}
+
+/* Hero Section */
+.hero {
+    background-color: #2c1e81;
+    color: #fff;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Mission Vision Section */
+.mission-vision {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.mission-vision .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.mission, .vision {
+    flex: 1;
+}
+
+.mission h2, .vision h2 {
+    font-size: 1.8rem;
+    color: #2c1e81;
+    border-bottom: 2px solid #2c1e81;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Services Section */
+.services {
+    background-color: #2c1e81;
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+/* Service Items */
+.service-items {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.service-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-text h3 {
+    color: #2c1e81;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.service-text.right {
+    padding-left: 20px;
+}
+
+.service-text.left {
+    padding-right: 20px;
+    text-align: right;
+}
+
+/* About Section */
+.about {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.about h2 {
+    font-size: 2rem;
+    color: #2c1e81;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.about p {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+.about-images {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.about-images img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.about-text p {
+    text-align: left;
+}
+
+/* Events Section */
+.events {
+    background-color: #2c1e81;
+    color: #fff;
+    padding: 60px 0;
+}
+
+.events h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.event-grid {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.event-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 350px;
+}
+
+.event-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.event-details h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.event-date {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.testimonials h2 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.testimonial-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-content {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.testimonial-author {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Contact Section */
+.contact {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.contact h2 {
+    font-size: 2rem;
+    color: #2c1e81;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.contact-info {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-info p {
+    margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+    background-color: #2c1e81;
+    color: #fff;
+    padding: 30px 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .mission-vision .container {
+        flex-direction: column;
+    }
+    
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-text.left, .service-text.right {
+        text-align: center;
+        padding: 0;
+    }
+    
+    .event-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .event-item {
+        width: 100%;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-info {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    nav ul {
+        justify-content: center;
+    }
+    
+    nav ul li {
+        margin: 0 10px;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile Menu */
+@media (max-width: 576px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 5px 0;
+    }
+}
