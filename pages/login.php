@@ -1,15 +1,8 @@
 <?php
     include("../database.php")
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="../assets/css/login.css">
-</head>
-<body>
+<?php $style = 'login.css'; 
+    require("partials/head.php"); ?>
     <div class="container">
         <div class="left">
             <h1>Welcome</h1>
@@ -33,8 +26,7 @@
         </div>
     </div>
     <script src="login.js"></script>
-</body>
-</html>
+    <?php require("partials/foot.php"); ?>
 <?php
     mysqli_close($conn);
 ?>
