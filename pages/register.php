@@ -1,14 +1,8 @@
 <?php
     include("../database.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
-    <link rel="stylesheet" href="../assets/css/register.css">
-</head>
+<?php  $style = 'register.css';
+    require("partials/head.php") ?>
 <body>
     <div class="container">
         <div class="form-container">
@@ -37,8 +31,7 @@
         </div>
     </div>
     <script src="createacc.js"></script>
-</body>
-</html>
+<?php require("partials/foot.php") ?>
 <?php
     if( $_SERVER["REQUEST_METHOD"] == "POST")   {
         $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
