@@ -1,6 +1,3 @@
-<?php
-    include("../database.php")
-?>
 <?php $style = 'login.css'; 
     require("partials/head.php"); ?>
     <div class="container">
@@ -27,6 +24,3 @@
     </div>
     <script src="login.js"></script>
     <?php require("partials/foot.php"); ?>
-<?php
-    mysqli_close($conn);
-?>

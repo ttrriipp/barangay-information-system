@@ -1,6 +1,3 @@
-<?php
-    include("../database.php");
-?>
 <?php  $style = 'register.css';
     require("partials/head.php") ?>
 <body>
@@ -32,14 +29,3 @@
     </div>
     <script src="createacc.js"></script>
 <?php require("partials/foot.php") ?>
-<?php
-    if( $_SERVER["REQUEST_METHOD"] == "POST")   {
-        $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
-        $pass = filter_input(INPUT_POST, "pass", FILTER_SANITIZE_SPECIAL_CHARS);
-
-            $sql = "INSERT INTO creataccdb (username, password)
-                    VALUES ('$user','$pass')";
-            mysqli_query($conn, $sql);
-    }
-   mysqli_close($conn);
-?>
