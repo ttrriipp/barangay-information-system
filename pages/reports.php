@@ -1,8 +1,8 @@
-<?php $style = "reports.css";
+<?php $style = 'main.css';
   require("partials/head.php"); ?>
 <?php require("partials/sidebar.php") ?>
 <div class="main-content">
-  <h1>Reports</h1>
+  <h1 class="reports-title">Reports</h1>
   <div class="reports-grid">
     <div class="report-card">
       <h2>Program and Initiatives</h2>

@@ -1,6 +1,6 @@
-<?php require("partials/sidebar.php"); ?>
-<?php $style = "services.css"; 
+<?php $style = 'main.css';
   require("partials/head.php"); ?>
+<?php require("partials/sidebar.php"); ?>
 
 <div class="main-content">
 <h1>Services</h1>

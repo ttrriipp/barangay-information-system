@@ -1,4 +1,4 @@
-<?php $style = 'dashboard.css';
+<?php $style = 'main.css';
 require("partials/head.php"); ?>
 <?php require("partials/sidebar.php") ?>
 

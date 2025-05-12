@@ -1,0 +1,154 @@
+/* Sidebar styles */
+.sidebar {
+    background-color: #1a237e;
+    color: #ffffff;
+    width: 20vw;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.hidden {
+    transform: translateX(-250px);
+}
+
+/* Profile section */
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    object-fit: cover;
+    display: inline-block;
+}
+
+.profile h3 {
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 200px;
+}
+
+nav ul li {
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+nav ul li.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-left: 4px solid #4CAF50;
+}
+
+nav ul li.active:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    transition: transform 0.2s ease;
+    font-size: 1.5rem;
+    height: 100%;
+    width: 100%;
+}
+
+nav ul li a:hover {
+    transform: translateX(5px);
+}
+
+nav ul li a i {
+    margin-right: 10px;
+    transition: transform 0.2s ease;
+}
+
+nav ul li a:hover i {
+    transform: scale(1.2);
+}
+
+nav ul li.active a {
+    font-weight: bold;
+    padding-left: 6px;
+    transform: translateX(0);
+}
+
+nav ul li.active a i {
+    color: #4CAF50;
+}
+
+/* User info section */
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 10px;
+}
+
+.user-info div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    object-fit: cover;
+    display: inline-block;
+}
+
+.user-info p {
+    margin: 5px 0;
+}
+
+.user-info a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.user-info a i {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.user-info a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ff5252;
+}
+
+.user-info a:hover i {
+    transform: rotate(360deg);
+} 
+
