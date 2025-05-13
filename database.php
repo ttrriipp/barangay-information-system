@@ -1,10 +1,10 @@
 <?php
+    function getDatabaseConnection(){
     $db_server = "localhost";
     $db_user = "root";
     $db_pass = "";
     $db_name = "barangay_infomanage";
-
-    $conn = "";
+         $conn = "";
 
     try{
     $conn = mysqli_connect($db_server,
@@ -13,7 +13,12 @@
                            $db_name);
     }
    catch(mysqli_sql_exception){
-    echo "Could not Connect to the database";
+    echo "<script>alert("Could not Connect to the database")</script>";
    }
+
+   return $conn;
+    }
+   
+   
 
 ?>
