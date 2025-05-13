@@ -2,7 +2,7 @@
 .sidebar {
     background-color: #1a237e;
     color: #ffffff;
-    width: 20vw;
+    width: 18vw;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -104,7 +104,7 @@ nav ul li.active a i {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 8px 10px;
+    padding: 0 20px;
 }
 
 .user-info div {

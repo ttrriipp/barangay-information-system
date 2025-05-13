@@ -248,17 +248,17 @@ body::before {
 }
 
 .back-link a {
-    color: #0066ff !important;
-    text-decoration: none !important;
-    font-size: 1em !important;
+    color: #0066ff;
+    text-decoration: none;
+    font-size: 1em ;
     font-weight: 500;
     transition: all 0.3s ease;
     display: inline-block;
 }
 
 .back-link a:hover {
-    color: #4d94ff !important;
-    text-decoration: underline !important;
+    color: #4d94ff; 
+    text-decoration: underline;
 }
 
 @keyframes float {

@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all sections that need to be observed
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('nav ul li a');
     
-    // Smooth scrolling for anchor links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -21,14 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
                 
-                // Update active class
                 navLinks.forEach(link => link.classList.remove('active'));
                 this.classList.add('active');
             }
         });
     });
     
-    // Update active navigation link on scroll
     function updateActiveLink() {
         let currentSection = '';
         
