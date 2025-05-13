@@ -3,7 +3,18 @@
     <div class="container">
         <div class="left">
             <h1>Welcome</h1>
-            <p>Please enter your details</p>
+            <p>Please enter your details to access the system</p>
+            <p class="label">Account type:</p>
+            <div class="account-types">
+                <label class="account-option">
+                    <input type="radio" id="resident" name="accountType" value="resident" checked>
+                    <span class="radio-label">Resident</span>
+                </label>
+                <label class="account-option">
+                    <input type="radio" id="admin" name="accountType" value="admin">
+                    <span class="radio-label">Admin</span>
+                </label>
+            </div>
             <form id="loginForm" action="<?php htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="user" required>
@@ -13,13 +24,13 @@
                     <input type="checkbox" id="rememberMe" name="rememberMe">
                     <label for="rememberMe">Remember me</label>
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Login <i class="fas fa-arrow-right"></i></button>
             </form>
             <p id="p2">Don't have an account yet? <a href="register.php">Create Account</a></p>
         </div>
         <div class="right">
-            <h2>Cupang West Management System</h2>
-            <img src="../images/logo-cupang.png" alt="Cupang West Logo">
+            <h2>Cupang West Information Management System</h2>
+            <img src="../assets/images/logo-cupangwestt.png" alt="Cupang West Logo">
         </div>
     </div>
     <script src="login.js"></script>

@@ -24,7 +24,8 @@
             </form>
         </div>
         <div class="logo-container">
-            <img src="../images/logo-cupang.png" alt="Cupang West Logo">
+            <h2>Cupang West Information Management System</h2>
+            <img src="../assets/images/logo-cupangwestt.png" alt="Cupang West Logo">
         </div>
     </div>
     <script src="createacc.js"></script>

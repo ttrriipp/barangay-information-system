@@ -12,59 +12,162 @@ body {
     display: flex;
     width: 100vw;
     height: 100vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .left, .right {
-    padding: 20px;
+    padding: 30px;
 }
 
 .left {
     flex: 1;
-    background-color: #e0f7fa;
+    background-color: #e6f5ff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    padding-left: 10%;
 }
 
 .right {
     flex: 1;
     background-color: #283593;
+    background-image: linear-gradient(135deg, #283593 0%, #1a237e 100%);
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.right::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
 }
 
 h1 {
     font-size: 3em;
     color: #283593;
+    margin-bottom: 1px;
 }
 
-p
-
 h2 {
-    font-size: 1.5em;
+    font-size: 2em;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 0.8px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    padding-bottom: 15px;
+    max-width: 80%;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.right h2 {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.right h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+    border-radius: 3px;
+}
+
+p {
+    color: #555;
+    margin-bottom: 1px;
+    font-size: 1.1em;
+    line-height: 1.3;
+}
+
+.account-types {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.account-option {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.account-option:hover {
+    border-color: #283593;
+}
+
+.account-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.account-option input[type="radio"]:checked {
+    border-color: #283593;
+}
+
+.account-option input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #283593;
+    border-radius: 50%;
+}
+
+.radio-label {
+    font-weight: bold;
+    font-size: 1em;
+    color: #333;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    max-width: 300px;
+    max-width: 80%;
 }
 
-label {
-    margin-top: 10px;
+.label, label {
+    margin-top: 12px;
+    font-weight: bold;
+    color: #333;
 }
 
 input[type="text"], input[type="password"] {
-    padding: 10px;
+    padding: 12px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 1em;
 }
 
 .remember-me {
@@ -74,18 +177,33 @@ input[type="text"], input[type="password"] {
 }
 
 .remember-me input {
-    margin-top: 4%;
-    margin-right: 5px;
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.remember-me label {
+    margin-top: 0;
+    font-weight: normal;
 }
 
 button {
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 15px;
+    padding: 12px;
     background-color: #283593;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button i {
+    margin-left: 10px;
 }
 
 button:hover {
@@ -95,6 +213,7 @@ button:hover {
 a {
     color: #283593;
     text-decoration: none;
+    font-weight: bold;
 }
 
 a:hover {
@@ -102,6 +221,17 @@ a:hover {
 }
 
 img {
-    max-width: 100%;
+    max-width: 65%;
     height: auto;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.02);
+}
+
+#p2 {
+    margin-top: 20px;
+    font-size: 0.9em;
 }
