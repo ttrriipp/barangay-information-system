@@ -272,3 +272,37 @@ body::before {
         transform: translateY(0px);
     }
 }
+
+.username-status, .password-status {
+    font-size: 0.85em;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+    transition: all 0.3s ease;
+    height: 20px;
+}
+
+/* Style for disabled button */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+button:disabled::before {
+    display: none;
+}
+
+.form-error {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-left: 3px solid #ff3333;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease-out;
+}

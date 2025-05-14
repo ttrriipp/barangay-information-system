@@ -4,18 +4,17 @@
     $db_user = "root";
     $db_pass = "";
     $db_name = "barangay_infomanage";
-         $conn = "";
+    $conn = "";
 
-    try{
-    $conn = mysqli_connect($db_server,
-                           $db_user,
-                           $db_pass,
-                           $db_name);
+    try {
+        $conn = mysqli_connect($db_server,
+                                $db_user,
+                                $db_pass,
+                                $db_name);
+    } catch (mysqli_sql_exception) {
+        echo "<script>alert('Could not connect to the database')</script>";
     }
-   catch(mysqli_sql_exception){
-    echo "<script>alert("Could not Connect to the database")</script>";
-   }
 
-   return $conn;
+    return $conn;
     }
 ?>

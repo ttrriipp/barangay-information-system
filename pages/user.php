@@ -5,7 +5,7 @@
       <div class="container">
         <div class="logo">
           <img
-            src="../assets/images/logo-cupangwestt.png"
+            src="../assets/images/logo-cupangwest.png"
             width="70px"
             height="70px"
             alt="Cupang West Logo"
@@ -45,8 +45,8 @@
             heritage and preserves the environment.
           </p>
         </div>
+        <h2>Vision</h2>
         <div class="vision">
-          <h2>Vision</h2>
           <p>
             To be a united and progressive barangay where every resident enjoys
             a safe, inclusive, and empowered community through responsive
@@ -245,6 +245,6 @@
       </div>
     </footer>
 
-    <script src="/assets/js/user.js"></script>
+    <script src="../assets/js/user.js"></script>
   </body>
 </html>
