@@ -1,5 +1,5 @@
 function addResident() {
-    alert("Add New Resident button clicked!");    
+    window.location.href = "../pages/partials/popup.php"; // Redirect to popup.php
 }
 function editResident() {
     alert("Edit Resident button clicked!"); 

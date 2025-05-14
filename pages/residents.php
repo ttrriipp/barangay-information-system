@@ -6,15 +6,25 @@ if (!isset($_SESSION["username"]) || $_SESSION["role"] !== "admin") {
     exit();
 }
 $style = 'main.css';
-require("partials/head.php") ?>
+require("partials/head.php");
+require("../database.php");
+
+// Fetch residents from the database
+$conn = getDatabaseConnection();
+$residents = [];
+if ($conn) {
+    $query = "SELECT id, CONCAT(surname, ', ', firstname, ' ', middlename) AS fullname, address, age, sex FROM resident";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $residents[] = $row;
+        }
+    }
+    mysqli_close($conn);
+}
+?>
 <?php require("partials/sidebar.php") ?>
 <div class="main-content">
-        <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
     <h1>Resident Management</h1>
     <div class="table-container">
         <table id="residentTable">
@@ -25,24 +35,21 @@ require("partials/head.php") ?>
                     <th>Address</th>
                     <th>Age</th>
                     <th>Sex</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="residentTableBody">
+                <?php foreach ($residents as $index => $resident): ?>
+                    <tr>
+                        <td><?= $index + 1 ?></td>
+                        <td><?= htmlspecialchars($resident['fullname']) ?></td>
+                        <td><?= htmlspecialchars($resident['address']) ?></td>
+                        <td><?= htmlspecialchars($resident['age']) ?></td>
+                        <td><?= htmlspecialchars($resident['sex']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-        <table id="dg" title="Users Management" class="easyui-datagrid" url="getData.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" style="width:100%;height:400px;">
-        <thead>
-            <tr>
-                <th field ="id" width="50">Id No.</th>
-                <th field="fullname" width="50">Full Name</th>
-                <th field="address" width="50">Address</th>
-                <th field="age" width="50">Age</th>
-                <th field="sex" width="50">Sex</th>
-            </tr>
-        </thead>
-    </table>
     <div class="button-container">
         <button onclick="addResident()">Add New Resident</button>
         <button onclick="editResident()">Edit Resident</button>
@@ -50,5 +57,5 @@ require("partials/head.php") ?>
     </div>
 </div>
 
-<script src="resi.js"></script>
+<script src="../assets/js/residents.js"></script>
 <?php require("partials/foot.php"); ?>
