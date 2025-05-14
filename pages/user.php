@@ -1,4 +1,11 @@
-  <?php $style ='user.css';
+<?php 
+    session_start();
+    // Check if user is logged in
+    if (!isset($_SESSION["username"]) || $_SESSION["role"] !== "user") {
+        header("Location: login.php");
+        exit();
+    }
+    $style ='user.css';
     $hide_sidebar = true;
     require('partials/head.php'); ?>
     <header>
@@ -15,9 +22,12 @@
         <nav>
           <ul>
             <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li class="user-menu">
+              <a href="javascript:void(0);" onclick="window.location.href='../controllers/logout.php'" class="logout-btn">Logout</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -37,16 +47,16 @@
         <div class="mission">
           <h2>Mission</h2>
           <p>
-            We, the leaders and residents of Barangay Cupang
-            West, commit ourselves to work together towards building a vibrant
+            We, the leaders and residents of Barangay Cupang
+            West, commit ourselves to work together towards building a vibrant
             and harmonious community. Our mission is to provide excellent public
             service, ensure the well-being of our people, and promote social,
             economic, and environmental development that respects our cultural
             heritage and preserves the environment.
           </p>
         </div>
-        <h2>Vision</h2>
         <div class="vision">
+          <h2>Vision</h2>
           <p>
             To be a united and progressive barangay where every resident enjoys
             a safe, inclusive, and empowered community through responsive
@@ -129,7 +139,7 @@
               West developed steadily, balancing urban progress with its deep
               community ties. Over the years, the barangay has become known for
               its peaceful neighborhoods, active civic programs, and
-              contributions to the city’s economic and cultural development.
+              contributions to the city's economic and cultural development.
             </p>
             <p>
               Today, Cupang West stands as a dynamic and welcoming community,

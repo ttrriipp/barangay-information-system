@@ -7,7 +7,7 @@
             <p class="label">Account type:</p>
             <div class="account-types">
                 <label class="account-option">
-                    <input type="radio" id="resident" name="accountType" value="resident" checked>
+                    <input type="radio" id="user" name="accountType" value="user" checked>
                     <span class="radio-label">User</span>
                 </label>
                 <label class="account-option">
@@ -16,6 +16,7 @@
                 </label>
             </div>
             <form id="loginForm" action="../controllers/login.php" method="post">
+                <input type="hidden" id="selectedAccountType" name="accountType" value="user">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="user" required>
                 <label for="password">Password:</label>
@@ -33,5 +34,18 @@
             <img src="../assets/images/logo-cupangwest.png" alt="Cupang West Logo">
         </div>
     </div>
-    <script src="login.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the initial value
+            document.getElementById('selectedAccountType').value = 'user';
+            
+            // Update the hidden input when radio buttons change
+            const radioButtons = document.querySelectorAll('input[name="accountType"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('selectedAccountType').value = this.value;
+                });
+            });
+        });
+    </script>
     <?php require("partials/foot.php"); ?>

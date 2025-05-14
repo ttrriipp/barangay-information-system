@@ -15,11 +15,10 @@
                 <img src="../assets/images/user-placeholder.svg" alt="User Image">
             </div>
             <div>
-                <p>Name</p>
-                <p>username</p>
+                <p><?= $_SESSION['username'] ?></p>
             </div>
             <div>
-                <a href="login.php"><i class="material-icons">logout</i></a>
+                <a href="../controllers/logout.php"><i class="material-icons">logout</i></a>
             </div>
         </div>
     </div>

@@ -124,6 +124,8 @@ nav ul li.active a i {
 
 .user-info p {
     margin: 5px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .user-info a {
