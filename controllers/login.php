@@ -5,6 +5,8 @@ session_start();
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $userlog = $_POST['user'];
         $passlog = $_POST['pass'];
+        $accountType = isset($_POST['accountType']) ? $_POST['accountType'] : "user"; // Check if accountType exists
+        
         if(empty($userlog) || empty($passlog)){
             echo "<script>alert('Please input the correct credentials!')</script>";
         }else {
@@ -12,19 +14,42 @@ session_start();
             $conn = getDatabaseConnection();
 
             $statement = $conn->prepare(
-                "SELECT id, username, password FROM users WHERE username = ?"
+                "SELECT id, username, password, role FROM users WHERE username = ?"
             );
             $statement->bind_param('s', $userlog);
             $statement->execute();
 
-            $statement->bind_result($id, $username, $password);
+            $statement->bind_result($id, $username, $password, $role);
             if($statement->fetch()){
-                if(password_verify($passlog, $password)){
-                    $_SESSION["id"] = $id;
-                    $_SESSION["username"] = $username;
-                    header("Location: ../pages/dashboard.php");
-                    exit();
-                } else {
+                if ($accountType === 'admin' && $role === 'admin') {
+                    if ($passlog === $password){
+                        $_SESSION["id"] = $id;
+                        $_SESSION["username"] = $username;
+                        $_SESSION["role"] = $role;
+                        header("Location: ../pages/dashboard.php");
+                        exit();
+                    }
+                }
+                if (password_verify($passlog, $password)){
+                    // Check if the selected account type matches the user's role
+                    if($accountType !== $role){
+                        echo "<script>alert('You do not have access to this account type!')</script>";
+                    } else {
+                        $_SESSION["id"] = $id;
+                        $_SESSION["username"] = $username;
+                        $_SESSION["role"] = $role;
+                        
+                        // Redirect based on user role
+                        if($role === "admin") {
+                            header("Location: ../pages/dashboard.php");
+                        } else {
+                            header("Location: ../pages/user.php");
+                        }
+                        exit();
+                    }
+                }else if ($accountType === 'user' && $role === 'admin') {
+                    echo "<script>alert('You do not have access to this account type!')</script>";
+                } else { 
                     echo "<script>alert('Incorrect password!')</script>";
                 }
             } else {
