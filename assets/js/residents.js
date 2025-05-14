@@ -1,5 +1,5 @@
 function addResident() {
-    alert("Add New Resident button clicked!");
+    alert("Add New Resident button clicked!");    
 }
 function editResident() {
     alert("Edit Resident button clicked!"); 

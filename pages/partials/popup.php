@@ -9,60 +9,56 @@
   <body>
     <div class="container">
       <div class="form-container">
-        <form>
+        <form action="../controllers/popupdb.php" method="POST">
           <label for="surname">Surname:</label>
-          <input type="text" id="surname" placeholder="Surname" required />
+          <input type="text" id="surname" placeholder="Surname" name="surname" required />
 
           <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" placeholder="First Name" required />
+          <input type="text" id="firstName" placeholder="First Name" name="fname" required />
 
           <label for="middleName">Middle Name:</label>
           <input
             type="text"
             id="middleName"
             placeholder="Middle Name"
+            name="mname"
             required
+            
           />
 
           <label for="age">Age:</label>
-          <input type="text" id="age" placeholder="Age" required />
+          <input type="text" id="age" placeholder="Age" name="age" required />
 
-          <label for="houseNo">House No./Unit no.:</label>
+          <p class="label">Sex:</p>
+          <div class="sex">
+               <select name="sex">
+                <option value="not selected">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <optionv alue="Other">Other</option>
+              </select> <br>
+            </div>
+
+          <label for="Address">Address:</label>
           <input
             type="text"
-            id="houseNo"
-            placeholder="House No./Unit no."
+            id="Address"
+            placeholder="Address"
+            name="address"
             required
           />
 
-          <label for="streetAddress">Street Address:</label>
-          <input
-            type="text"
-            id="streetAddress"
-            placeholder="Street Address"
-            required
-          />
-
-          <label for="barangay">Barangay:</label>
-          <input type="text" id="barangay" placeholder="Barangay" required />
 
           <label for="contactNo">Contact No.:</label>
           <input
             type="text"
             id="contactNo"
             placeholder="Contact No."
+            name="contact"
             required
           />
 
-          <label for="occupation">Occupation:</label>
-          <input
-            type="text"
-            id="occupation"
-            placeholder="Occupation"
-            required
-          />
-
-          <button type="submit">Submit</button>
+          <button type="submit" value="register" name="residentadd">Submit</button>
         </form>
       </div>
       <div class="logo-container">
@@ -72,3 +68,4 @@
     <script src="popup.js"></script>
   </body>
 </html>
+

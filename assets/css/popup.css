@@ -70,3 +70,58 @@ margin-right: 40%;
     max-width: 100%;
     height: auto;
 }
+
+.sexTypes {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.sex-option {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sex-option:hover {
+    border-color: #283593;
+}
+
+.sex-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.sex-option input[type="radio"]:checked {
+    border-color: #283593;
+}
+
+.sex-option input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #283593;
+    border-radius: 50%;
+}
+
+.radio-label {
+    font-weight: bold;
+    font-size: 1em;
+    color: #333;
+}
