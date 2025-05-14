@@ -12,7 +12,7 @@ session_start();
             $conn = getDatabaseConnection();
 
             $statement = $conn->prepare(
-                "SELECT id, username, password FROM creataccdb WHERE user = ?"
+                "SELECT id, username, password FROM creataccdb WHERE username = ?"
             );
             $statement->bind_param('s', $userlog);
             $statement->execute();
@@ -23,16 +23,13 @@ session_start();
                 $_SESSION["id"] = $id;
                 $_SESSION["username"] = $username;
                 header("location: pages/dashboard.php");
-                exit;
+                exit();
                 }
             }
             $statement->close();
+            mysqli_close($conn);
         }
     }
 ?>
 
 <?php require("../pages/login.php"); ?>
-
-<?php
-    mysqli_close($conn);
-?>

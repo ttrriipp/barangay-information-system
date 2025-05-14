@@ -1,4 +1,4 @@
 <?php
 // Entry point - redirect to login page
-header("Location: pages/login.php");
+header("Location: controllers/login.php");
 exit();
