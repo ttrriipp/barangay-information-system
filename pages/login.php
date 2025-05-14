@@ -8,14 +8,14 @@
             <div class="account-types">
                 <label class="account-option">
                     <input type="radio" id="resident" name="accountType" value="resident" checked>
-                    <span class="radio-label">Resident</span>
+                    <span class="radio-label">User</span>
                 </label>
                 <label class="account-option">
                     <input type="radio" id="admin" name="accountType" value="admin">
                     <span class="radio-label">Admin</span>
                 </label>
             </div>
-            <form id="loginForm" action="<?php htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
+            <form id="loginForm" action="../controllers/login.php" method="post">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="user" required>
                 <label for="password">Password:</label>
@@ -30,7 +30,7 @@
         </div>
         <div class="right">
             <h2>Cupang West Information Management System</h2>
-            <img src="../assets/images/logo-cupangwestt.png" alt="Cupang West Logo">
+            <img src="../assets/images/logo-cupangwest.png" alt="Cupang West Logo">
         </div>
     </div>
     <script src="login.js"></script>
