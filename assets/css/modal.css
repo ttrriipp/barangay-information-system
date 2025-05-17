@@ -1,0 +1,201 @@
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #1a2b5d;
+    color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.close-button {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #ccc;
+}
+
+/* Form container inside modal */
+.form-container {
+    padding: 20px 0;
+    width: 60%;
+    text-align: left;
+    height: min-content;
+}
+
+.logo-container {
+    width: 40%;
+    text-align: center;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Flexbox container inside modal for form and logo */
+.modal-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Form input styles */
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.form-container input[type="text"] {
+    width: 94%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+.form-container button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.text-button {
+    padding: 5px 10px;
+    background-color: #1a2b5d;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.text-button:hover {
+    background-color: #283593;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+    transform: scale(1.1);
+}
+
+.edit-btn {
+    color: white;
+}
+
+.delete-btn {
+    color: #f44336;
+}
+
+.delete-btn:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Delete confirmation modal */
+.delete-confirm-content {
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.delete-confirm-content h3 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button-group .delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.button-group .cancel-btn {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* Header container with Add button */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-button-container {
+    margin-right: 20px;
+}
+
+.top-button-container button {
+    font-size: 1rem;
+} 

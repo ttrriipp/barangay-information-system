@@ -141,6 +141,76 @@ th {
     text-align: center;
 }
 
+/* Header container */
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-container h1 {
+    margin: 0;
+}
+
+/* Search and Add button container */
+.search-and-add-container {
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+    width: 50%;
+    max-width: 500px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    border: 2px solid #1a237e;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #283593;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1a237e;
+    font-size: 18px;
+}
+
+.add-btn {
+    height: 43px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 25px;
+    padding: 0 25px;
+    background-color: #1a237e;
+    color: white;
+    transition: all 0.3s;
+}
+
+.add-btn:hover {
+    background-color: #283593;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .mission-vision {
@@ -153,5 +223,19 @@ th {
     
     .reports-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .search-and-add-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-box {
+        width: 90%;
+    }
+    
+    .add-btn {
+        width: 90%;
+        justify-content: center;
     }
 } 

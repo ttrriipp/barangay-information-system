@@ -73,7 +73,7 @@ if (isset($_GET['id'])) {
         </form>
       </div>
       <div class="logo-container">
-        <img src="your-logo-url-here.png" alt="Cupang West Logo" />
+        <img src="../../assets/images/logo-cupangwest.png" alt="Cupang West Logo" />
       </div>
     </div>
     <script src="popup.js"></script>

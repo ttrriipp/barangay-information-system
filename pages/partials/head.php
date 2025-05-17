@@ -11,5 +11,6 @@
       echo '<link rel="stylesheet" href="../assets/css/sidebar.css">';
     } ?>
     <link rel="stylesheet" href="../assets/css/<?= $style ?>">
+    <link rel="stylesheet" href="../assets/css/modal.css">
   </head>
   <body>
