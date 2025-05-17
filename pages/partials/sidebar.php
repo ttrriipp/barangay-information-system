@@ -1,7 +1,7 @@
 <div class="sidebar">
         <div class="profile">
             <img src="../assets/images/alden-FREAKchards.jpg" alt="Profile Image">
-            <h3>Alden Freakchards</h3>
+            <h3>𝓪𝓵𝓭𝓮𝓷 𝓯𝓻𝓮𝓪𝓴𝓬𝓱𝓪𝓻𝓭𝓼</h3>
         </div>
         <nav>
             <ul>
