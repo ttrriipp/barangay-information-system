@@ -238,4 +238,45 @@ th {
         width: 90%;
         justify-content: center;
     }
+}
+
+/* Members table in household form */
+.household-members .members-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.household-members .members-table th,
+.household-members .members-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.household-members .members-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.household-members .members-table .remove-member {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.household-members .members-table .remove-member:hover {
+    background-color: #e60000;
+}
+
+.household-members .members-table .no-members {
+    text-align: center;
+    font-style: italic;
+    color: #888;
 } 

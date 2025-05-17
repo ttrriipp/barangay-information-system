@@ -28,7 +28,7 @@ $residents = [];
 
 if ($conn) {
 
-    $query = "SELECT id, CONCAT(surname, ', ', firstname, ' ', middlename) AS fullname, address, age, sex FROM resident";
+    $query = "SELECT id, CONCAT(surname, ', ', firstname, ' ', middlename) AS fullname, address, age, sex FROM residents";
 
     $result = mysqli_query($conn, $query);
 

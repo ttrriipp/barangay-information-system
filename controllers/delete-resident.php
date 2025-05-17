@@ -30,7 +30,7 @@ if (!$conn) {
 $id = intval($_POST['id']);
 
 // Prepare and execute the DELETE query
-$stmt = $conn->prepare("DELETE FROM resident WHERE id = ?");
+$stmt = $conn->prepare("DELETE FROM residents WHERE id = ?");
 $stmt->bind_param("i", $id);
 $result = $stmt->execute();
 

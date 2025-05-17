@@ -16,7 +16,7 @@ $isEdit = false;
 if (isset($_GET['id'])) {
     $isEdit = true;
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT surname, firstname, middlename, age, sex, address, contact FROM resident WHERE id = ?");
+    $stmt = $conn->prepare("SELECT surname, firstname, middlename, age, sex, address, contact FROM residents WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->bind_result($resident['surname'], $resident['fname'], $resident['mname'], $resident['age'], $resident['sex'], $resident['address'], $resident['contact']);

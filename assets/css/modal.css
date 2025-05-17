@@ -198,4 +198,193 @@
 
 .top-button-container button {
     font-size: 1rem;
+}
+
+/* Household member styles */
+.household-members {
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 15px;
+}
+
+.household-members h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.member-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    gap: 10px;
+}
+
+.member-row select {
+    flex: 1;
+    margin-bottom: 0 !important;
+}
+
+.member-row .remove-member {
+    padding: 8px 10px;
+    margin: 0;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#addMemberBtn {
+    margin-top: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+}
+
+#addMemberBtn:hover {
+    background-color: #45a049;
+}
+
+/* Override the default form button style for the Add Member button */
+.form-container #addMemberBtn:hover {
+    background-color: #45a049;
+}
+
+#membersList {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 5px;
+}
+
+/* Style for the members list when empty */
+#membersList:empty {
+    padding: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#membersList:empty:before {
+    content: "No members added yet";
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+/* View button styles */
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.view-btn:hover {
+    background-color: #45a049;
+}
+
+/* Household details modal */
+.details-modal-body {
+    padding: 10px 20px;
+}
+
+.details-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.details-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+.household-info {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.info-row {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.info-row strong {
+    width: 100px;
+    display: inline-block;
+    color: #e0e0e0;
+}
+
+.members-section {
+    margin-top: 20px;
+}
+
+.members-section h3 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 8px;
+}
+
+.members-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.members-table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+}
+
+.members-table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.members-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-btn {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    background-color: #ccc;
+}
+
+/* No members message */
+.no-members {
+    text-align: center;
+    padding: 20px;
+    color: #ccc;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
 } 

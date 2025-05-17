@@ -12,9 +12,9 @@
     } ?>
     <link rel="stylesheet" href="../assets/css/<?= $style ?>">
     <?php
-    // Only load modal CSS on residents page
+    // Load modal CSS on pages that use modals
     $current_page = basename($_SERVER['PHP_SELF']);
-    if ($current_page === 'residents.php') {
+    if ($current_page === 'residents.php' || $current_page === 'household.php') {
         echo '<link rel="stylesheet" href="../assets/css/modal.css">';
     }
     ?>
