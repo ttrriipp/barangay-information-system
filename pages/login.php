@@ -27,7 +27,7 @@
                 </div>
                 <button type="submit">Login <i class="fas fa-arrow-right"></i></button>
             </form>
-            <p id="p2">Don't have an account yet? <a href="register.php">Create Account</a></p>
+            <p id="p2">Don't have an account yet? <a href="../controllers/register.php">Create Account</a></p>
         </div>
         <div class="right">
             <h2>Cupang West Information Management System</h2>

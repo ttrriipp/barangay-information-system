@@ -11,6 +11,12 @@
       echo '<link rel="stylesheet" href="../assets/css/sidebar.css">';
     } ?>
     <link rel="stylesheet" href="../assets/css/<?= $style ?>">
-    <link rel="stylesheet" href="../assets/css/modal.css">
+    <?php
+    // Only load modal CSS on residents page
+    $current_page = basename($_SERVER['PHP_SELF']);
+    if ($current_page === 'residents.php') {
+        echo '<link rel="stylesheet" href="../assets/css/modal.css">';
+    }
+    ?>
   </head>
   <body>
