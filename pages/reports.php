@@ -5,48 +5,71 @@ if (!isset($_SESSION["username"]) || $_SESSION["role"] !== "admin") {
     header("Location: login.php");
     exit();
 }
+require("../database.php");
+$conn = getDatabaseConnection();
+
+$ageRanges = [
+    '0-12' => [0, 12],
+    '13-19' => [13, 19],
+    '20-35' => [20, 35],
+    '36-59' => [36, 59],
+    '60+' => [60, 200]
+];
+
+$ageCounts = [];
+foreach ($ageRanges as $label => $range) {
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM resident WHERE age >= ? AND age <= ?");
+    $min = $range[0];
+    $max = $range[1];
+    // For 60+, set max to a high value
+    if ($label === '60+') $max = 200;
+    $stmt->bind_param("ii", $min, $max);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $ageCounts[$label] = $count;
+    $stmt->close();
+}
+$conn->close();
+
 $style = 'main.css';
 require("partials/head.php"); ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?php require("partials/sidebar.php") ?>
-<div class="main-content">
-  <h1 class="reports-title">Reports</h1>
-  <div class="reports-grid">
+    <!-- Age Range Bar Graph -->
     <div class="report-card">
-      <h2>Program and Initiatives</h2>
-      <a href="link-to-program-and-initiatives.html">
-        <img
-          src="your-image-url-here.png"
-          alt="Program and Initiatives Graph"
-        />
-      </a>
-    </div>
-    <div class="report-card">
-      <h2>Number of Household</h2>
-      <a href="link-to-number-of-household.html">
-        <img
-          src="your-image-url-here.png"
-          alt="Number of Household Graph"
-        />
-      </a>
-    </div>
-    <div class="report-card">
-      <h2>Percentage of Population</h2>
-      <a href="link-to-percentage-of-population.html">
-        <img
-          src="your-image-url-here.png"
-          alt="Percentage of Population Graph"
-        />
-      </a>
-    </div>
-    <div class="report-card">
-      <h2>Social Development</h2>
-      <a href="link-to-social-development.html">
-        <img
-          src="your-image-url-here.png"
-          alt="Social Development Pie Chart"
-        />
-      </a>
+      <h2>Residents by Age Range</h2>
+      <canvas id="ageRangeChart" width="400" height="200"></canvas>
     </div>
   </div>
 </div>
-<?php require("partials/foot.php");
+<script>
+const ageLabels = <?= json_encode(array_keys($ageCounts)) ?>;
+const ageData = <?= json_encode(array_values($ageCounts)) ?>;
+
+const ctx = document.getElementById('ageRangeChart').getContext('2d');
+const ageRangeChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ageLabels,
+        datasets: [{
+            label: 'Number of Residents',
+            data: ageData,
+            backgroundColor: [
+                '#1a237e', '#3949ab', '#5c6bc0', '#7986cb', '#9fa8da'
+            ],
+            borderColor: '#1a237e',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                precision: 0
+            }
+        }
+    }
+});
+</script>
+<?php require("partials/foot.php"); ?>
