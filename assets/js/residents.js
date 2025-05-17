@@ -1,8 +1,8 @@
 function addResident() {
-    window.location.href = "../pages/partials/popup.php"; // Redirect to popup.php
+    window.location.href = "partials/popup.php";
 }
-function editResident() {
-    alert("Edit Resident button clicked!"); 
+function editResident(id) {
+    window.location.href = "partials/popup.php?id=" + id;
 }
 function deleteResident() {
     alert("Delete Resident button clicked!");

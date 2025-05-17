@@ -29,6 +29,32 @@
             }
 
             $stmt->close();
+        } elseif (isset($_POST["residentedit"])) {
+            $id = intval($_POST["id"]);
+            $surname = $_POST["surname"];
+            $firstname = $_POST["fname"];
+            $midname = $_POST["mname"];
+            $age = $_POST["age"];
+            $sex = $_POST["sex"];
+            $address = $_POST["address"];
+            $contact = $_POST["contact"];
+
+            if ($sex === "not selected") {
+                echo "Please select a valid sex.";
+                exit;
+            }
+
+            $stmt = $conn->prepare("UPDATE resident SET surname=?, firstname=?, middlename=?, age=?, sex=?, address=?, contact=? WHERE id=?");
+            $stmt->bind_param("sssisssi", $surname, $firstname, $midname, $age, $sex, $address, $contact, $id);
+
+            if ($stmt->execute()) {
+                header("Location: ../pages/residents.php");
+                exit;
+            } else {
+                echo "Failed to update resident.";
+            }
+
+            $stmt->close();
         }
     }
 

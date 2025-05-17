@@ -35,6 +35,7 @@ if ($conn) {
                     <th>Address</th>
                     <th>Age</th>
                     <th>Sex</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="residentTableBody">
@@ -45,6 +46,9 @@ if ($conn) {
                         <td><?= htmlspecialchars($resident['address']) ?></td>
                         <td><?= htmlspecialchars($resident['age']) ?></td>
                         <td><?= htmlspecialchars($resident['sex']) ?></td>
+                        <td>
+                            <button onclick="editResident(<?= $resident['id'] ?>)">Edit</button>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -52,7 +56,6 @@ if ($conn) {
     </div>
     <div class="button-container">
         <button onclick="addResident()">Add New Resident</button>
-        <button onclick="editResident()">Edit Resident</button>
         <button onclick="deleteResident()">Delete Resident</button>
     </div>
 </div>
