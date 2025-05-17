@@ -1,7 +1,7 @@
 <div class="sidebar">
         <div class="profile">
-            <img src="../assets/images/user-placeholder.svg" alt="Profile Image">
-            <h3>Admin</h3>
+            <img src="../assets/images/alden-FREAKchards.jpg" alt="Profile Image">
+            <h3>Alden Freakchards</h3>
         </div>
         <nav>
             <ul>
@@ -13,7 +13,7 @@
         </nav>
         <div class="user-info">
             <div>
-                <img src="../assets/images/user-placeholder.svg" alt="User Image">
+                <img src="../assets/images/alden-FREAKchards.jpg" alt="User Image">
             </div>
             <div>
                 <p><?= $_SESSION['username'] ?></p>
