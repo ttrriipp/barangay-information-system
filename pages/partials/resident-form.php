@@ -240,10 +240,65 @@ function calculateAge() {
 .form-section-title {
     width: 100%;
     text-align: left;
-    color: #1a237e;
+    color:rgb(199, 200, 209);
     margin-top: 20px;
     margin-bottom: 10px;
     padding-bottom: 5px;
     border-bottom: 1px solid #e0e0e0;
+}
+
+/* Reset and normalize all form elements */
+#residentForm input,
+#residentForm select,
+#residentForm button {
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+/* Consistent styling for all input types */
+#residentForm input[type="text"],
+#residentForm input[type="number"],
+#residentForm input[type="email"],
+#residentForm input[type="date"],
+#residentForm select {
+    display: block !important;
+    width: 100% !important;
+    height: 40px !important;
+    padding: 8px 12px !important;
+    margin-bottom: 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
+
+/* Ensure date inputs don't get browser-specific sizing */
+#residentForm input[type="date"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+/* Force select dropdowns to match other inputs */
+#residentForm select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+    padding-right: 30px !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Ensure form container doesn't have max-width constraints */
+.form-container {
+    width: 100% !important;
+}
+
+/* Ensure each form field container is the same width */
+#residentForm label {
+    display: block !important;
+    margin-bottom: 5px !important;
 }
 </style> 

@@ -134,6 +134,10 @@ if ($conn) {
 
 <style>
 /* Status badge styles */
+.header-container {
+    display: flex;
+
+}
 .status-badge {
     display: inline-block;
     padding: 5px 10px;
