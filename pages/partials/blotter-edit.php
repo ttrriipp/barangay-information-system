@@ -82,21 +82,6 @@ if ($residentResult) {
             <h3>Complainant Information</h3>
             <div class="form-row">
                 <div class="form-group full-width">
-                    <label for="complainant_resident_id">Select Registered Resident (Optional)</label>
-                    <select id="complainant_resident_id" name="complainant_resident_id" onchange="populateComplainantInfo()">
-                        <option value="">-- Select Resident --</option>
-                        <?php foreach ($residents as $resident): ?>
-                        <option value="<?= $resident['id'] ?>" 
-                            data-name="<?= htmlspecialchars($resident['full_name']) ?>"
-                            <?= ($blotter['complainant_resident_id'] == $resident['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($resident['full_name']) ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full-width">
                     <label for="complainant_name">Complainant Name*</label>
                     <input type="text" id="complainant_name" name="complainant_name" value="<?= htmlspecialchars($blotter['complainant_name']) ?>" required>
                 </div>
@@ -117,21 +102,6 @@ if ($residentResult) {
         
         <div class="form-section">
             <h3>Respondent Information</h3>
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label for="respondent_resident_id">Select Registered Resident (Optional)</label>
-                    <select id="respondent_resident_id" name="respondent_resident_id" onchange="populateRespondentInfo()">
-                        <option value="">-- Select Resident --</option>
-                        <?php foreach ($residents as $resident): ?>
-                        <option value="<?= $resident['id'] ?>" 
-                            data-name="<?= htmlspecialchars($resident['full_name']) ?>"
-                            <?= ($blotter['respondent_resident_id'] == $resident['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($resident['full_name']) ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
             <div class="form-row">
                 <div class="form-group full-width">
                     <label for="respondent_name">Respondent Name*</label>
@@ -293,6 +263,12 @@ if ($residentResult) {
     font-size: 14px;
 }
 
+/* Add styling for dropdown options */
+.form-group select option {
+    background-color: #3a4468;
+    color: white;
+}
+
 .form-group input[readonly] {
     background-color: rgba(255, 255, 255, 0.05);
     color: #aaa;
@@ -368,14 +344,6 @@ if ($residentResult) {
 </style>
 
 <script>
-function populateComplainantInfo() {
-    // This is already handled by the pre-selection of the dropdown
-}
-
-function populateRespondentInfo() {
-    // This is already handled by the pre-selection of the dropdown
-}
-
 function closeModal() {
     // Use window.parent to access the parent window's modal
     if (window.parent && window.parent.document) {

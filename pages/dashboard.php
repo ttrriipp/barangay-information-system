@@ -125,7 +125,6 @@ require("partials/head.php");
             <div class="stat-info">
                 <h2>Total Residents</h2>
                 <div class="stat-value"><?php echo number_format($totalResidents); ?></div>
-                <div class="stat-change">+12 from last month</div>
             </div>
             <div class="stat-icon">
                 <i class="fas fa-users"></i>
@@ -136,7 +135,6 @@ require("partials/head.php");
             <div class="stat-info">
                 <h2>Certificates Issued</h2>
                 <div class="stat-value"><?php echo number_format($totalCertificates); ?></div>
-                <div class="stat-change">+22 from last month</div>
             </div>
             <div class="stat-icon">
                 <i class="fas fa-certificate"></i>
@@ -147,7 +145,6 @@ require("partials/head.php");
             <div class="stat-info">
                 <h2>Blotter Cases</h2>
                 <div class="stat-value"><?php echo number_format($totalBlotters); ?></div>
-                <div class="stat-change">-5 from last month</div>
             </div>
             <div class="stat-icon">
                 <i class="fas fa-clipboard-list"></i>
@@ -158,7 +155,6 @@ require("partials/head.php");
             <div class="stat-info">
                 <h2>Households</h2>
                 <div class="stat-value"><?php echo number_format($totalHouseholds); ?></div>
-                <div class="stat-change">+8 from last month</div>
             </div>
             <div class="stat-icon">
                 <i class="fas fa-home"></i>

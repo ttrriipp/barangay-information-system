@@ -52,19 +52,6 @@ if ($residentResult) {
             <h3>Complainant Information</h3>
             <div class="form-row">
                 <div class="form-group full-width">
-                    <label for="complainant_resident_id">Select Registered Resident (Optional)</label>
-                    <select id="complainant_resident_id" name="complainant_resident_id" onchange="populateComplainantInfo()">
-                        <option value="">-- Select Resident --</option>
-                        <?php foreach ($residents as $resident): ?>
-                        <option value="<?= $resident['id'] ?>" data-name="<?= htmlspecialchars($resident['full_name']) ?>">
-                            <?= htmlspecialchars($resident['full_name']) ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full-width">
                     <label for="complainant_name">Complainant Name*</label>
                     <input type="text" id="complainant_name" name="complainant_name" required>
                 </div>
@@ -85,19 +72,6 @@ if ($residentResult) {
         
         <div class="form-section">
             <h3>Respondent Information</h3>
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label for="respondent_resident_id">Select Registered Resident (Optional)</label>
-                    <select id="respondent_resident_id" name="respondent_resident_id" onchange="populateRespondentInfo()">
-                        <option value="">-- Select Resident --</option>
-                        <?php foreach ($residents as $resident): ?>
-                        <option value="<?= $resident['id'] ?>" data-name="<?= htmlspecialchars($resident['full_name']) ?>">
-                            <?= htmlspecialchars($resident['full_name']) ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
             <div class="form-row">
                 <div class="form-group full-width">
                     <label for="respondent_name">Respondent Name*</label>
@@ -241,6 +215,12 @@ if ($residentResult) {
     font-size: 14px;
 }
 
+/* Add styling for dropdown options */
+.form-group select option {
+    background-color: #3a4468;
+    color: white;
+}
+
 .form-group textarea {
     resize: vertical;
     height: auto;
@@ -305,22 +285,6 @@ if ($residentResult) {
 </style>
 
 <script>
-function populateComplainantInfo() {
-    const select = document.getElementById('complainant_resident_id');
-    if (select.value) {
-        const selectedOption = select.options[select.selectedIndex];
-        document.getElementById('complainant_name').value = selectedOption.getAttribute('data-name');
-    }
-}
-
-function populateRespondentInfo() {
-    const select = document.getElementById('respondent_resident_id');
-    if (select.value) {
-        const selectedOption = select.options[select.selectedIndex];
-        document.getElementById('respondent_name').value = selectedOption.getAttribute('data-name');
-    }
-}
-
 function closeModal() {
     // Use window.parent to access the parent window's modal
     if (window.parent && window.parent.document) {
