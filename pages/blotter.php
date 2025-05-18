@@ -64,7 +64,7 @@ $total_pages = ceil($total_records / $records_per_page);
     
     <?php if (isset($_SESSION['blotter_success'])): ?>
     <div class="alert alert-success">
-        <p>Blotter record added successfully!</p>
+        <p><?= htmlspecialchars($_SESSION['blotter_success']) ?></p>
     </div>
     <?php unset($_SESSION['blotter_success']); ?>
     <?php elseif (isset($_SESSION['blotter_error'])): ?>
@@ -433,7 +433,7 @@ $total_pages = ceil($total_records / $records_per_page);
         deleteModal.style.display = 'block';
         
         document.getElementById('confirmDeleteBtn').onclick = function() {
-            window.location.href = 'controllers/blotter-delete.php?id=' + id;
+            window.location.href = 'blotter-delete.php?id=' + id;
         };
         
         document.getElementById('cancelDeleteBtn').onclick = function() {

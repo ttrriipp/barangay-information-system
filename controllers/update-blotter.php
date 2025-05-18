@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         $stmt->bind_param(
-            "ssssisssisssssssssi", 
+            "ssssissssssssssssi", 
             $incident_type, 
             $complainant_name, 
             $complainant_address, 
