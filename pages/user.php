@@ -80,16 +80,21 @@
           </div>
           <div class="service-text right">
             <h3>Health Services</h3>
-            <p>
-              We provide free medical check-ups and medicines to our residents.
+            <p class="desc">
+              We provide free medical check-ups and essential medicines to our residents as part of our comprehensive barangay health services. 
+              These services are designed to promote the well-being of the community by ensuring accessible and preventive healthcare.
+              Our barangay health workers and local health center staff are committed to delivering primary healthcare services.
+              Through these efforts, we aim to foster a healthier, more informed, and resilient community.
             </p>
           </div>
 
           <div class="service-text left">
             <h3>Education Programs</h3>
             <p>
-              We have a scholarship program for deserving students in our
-              community.
+              We have a scholarship program for deserving students in our community as part of our commitment to supporting education and empowering the youth.
+              Barangay Cupang West aims to provide financial assistance to academically capable but economically disadvantaged students,
+              helping them pursue their studies and achieve their dreams.
+              Through this program, we cover tuition fees, school supplies, and other educational needs to ease the burden on families and encourage students to excel. 
             </p>
           </div>
           <div class="service-image">
@@ -108,7 +113,10 @@
           <div class="service-text right">
             <h3>Disaster Preparedness</h3>
             <p>
-              We conduct regular drills and seminars on disaster preparedness.
+              We conduct regular drills and seminars on disaster preparedness to ensure that our community is equipped with the knowledge and skills needed to respond effectively during emergencies. 
+              As part of our barangay's disaster risk reduction and management (DRRM) efforts, we actively train residents on evacuation procedures, 
+              first aid, fire safety, earthquake response, and other life-saving measures.
+              These initiatives aims to enhance community resilience and ensure that every resident is prepared to face potential disasters.
             </p>
           </div>
         </div>
