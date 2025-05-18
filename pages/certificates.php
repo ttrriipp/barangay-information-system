@@ -150,7 +150,7 @@ $total_pages = ceil($total_records / $records_per_page);
         <h2>Issue New Certificate</h2>
         
         <div style="display: flex; gap: 20px;">
-            <form id="certificateForm" action="controllers/certificate-add.php" method="POST" class="form-container" style="flex: 1;">
+            <form id="certificateForm" action="../controllers/certificate-add.php" method="POST" class="form-container" style="flex: 1;">
                 <div class="form-group">
                     <label for="residentName">Resident Name:</label>
                     <input type="text" id="residentName" name="resident_name" required placeholder="Enter resident name">
@@ -265,7 +265,7 @@ $total_pages = ceil($total_records / $records_per_page);
         deleteConfirmModal.style.display = 'block';
         
         document.getElementById('confirmDeleteBtn').onclick = function() {
-            window.location.href = 'controllers/certificate-delete.php?id=' + id;
+            window.location.href = '../controllers/certificate-delete.php?id=' + id;
         };
         
         document.getElementById('cancelDeleteBtn').onclick = closeModal;

@@ -40,7 +40,7 @@ if ($residentResult) {
 <div class="blotter-edit-container">
     <h2 class="view-header">Edit Blotter Record</h2>
     
-    <form id="blotterEditForm" method="post" action="/barangay-information-system/pages/controllers/update-blotter.php">
+    <form id="blotterEditForm" method="post" action="/barangay-information-system/controllers/update-blotter.php">
         <input type="hidden" name="id" value="<?= $id ?>">
         <div class="form-section">
             <h3>Incident Information</h3>

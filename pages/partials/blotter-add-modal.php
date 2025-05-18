@@ -17,7 +17,7 @@ if ($residentResult) {
 <div class="blotter-add-container">
     <h2 class="view-header">File New Blotter Record</h2>
     
-    <form id="blotterAddForm" method="post" action="/barangay-information-system/pages/controllers/save-blotter.php">
+    <form id="blotterAddForm" method="post" action="/barangay-information-system/controllers/save-blotter.php">
         <div class="form-section">
             <h3>Incident Information</h3>
             <div class="form-row">

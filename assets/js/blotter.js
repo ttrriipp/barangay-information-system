@@ -82,7 +82,7 @@ function deleteBlotter(id) {
 function confirmDelete() {
     if (blotterToDelete) {
         // Use AJAX to delete the record instead of page navigation
-        fetch(`controllers/delete-blotter.php?id=${blotterToDelete}`)
+        fetch(`../controllers/delete-blotter.php?id=${blotterToDelete}`)
             .then(response => {
                 if (response.ok) {
                     // Close the modal and refresh the page
