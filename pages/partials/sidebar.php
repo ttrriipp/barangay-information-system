@@ -8,8 +8,8 @@
                 <li><a href="dashboard.php"><i class="material-icons">dashboard</i>Dashboard</a></li>
                 <li><a href="residents.php"><i class="material-icons">people</i>Resident Management</a></li>
                 <li><a href="household.php"><i class="material-icons">home</i>Household Management</a></li>
+                <li><a href="blotter.php"><i class="material-icons">gavel</i>Blotter Records</a></li>
                 <li><a href="reports.php"><i class="material-icons">assessment</i>Reports</a></li>
-            </ul>
         </nav>
         <div class="user-info">
             <div>

@@ -1,0 +1,298 @@
+<?php
+include("../../database.php");
+$conn = getDatabaseConnection();
+
+// Get residents for dropdown
+$residents = [];
+$residentQuery = "SELECT id, surname, firstname, middlename FROM residents ORDER BY surname, firstname";
+$residentResult = mysqli_query($conn, $residentQuery);
+if ($residentResult) {
+    while ($row = mysqli_fetch_assoc($residentResult)) {
+        $row['full_name'] = $row['surname'] . ', ' . $row['firstname'] . ' ' . $row['middlename'];
+        $residents[] = $row;
+    }
+}
+?>
+
+<div class="blotter-add-container">
+    <h2 class="view-header">File New Blotter Record</h2>
+    
+    <form id="blotterAddForm" method="post" action="/barangay-information-system/pages/controllers/save-blotter.php">
+        <div class="form-section">
+            <h3>Incident Information</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="incident_type">Incident Type*</label>
+                    <input type="text" id="incident_type" name="incident_type" required>
+                </div>
+                <div class="form-group">
+                    <label for="incident_date">Incident Date*</label>
+                    <input type="date" id="incident_date" name="incident_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="incident_time">Incident Time*</label>
+                    <input type="time" id="incident_time" name="incident_time" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="incident_location">Incident Location*</label>
+                    <input type="text" id="incident_location" name="incident_location" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="incident_details">Incident Details*</label>
+                    <textarea id="incident_details" name="incident_details" rows="5" required></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>Complainant Information</h3>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="complainant_resident_id">Select Registered Resident (Optional)</label>
+                    <select id="complainant_resident_id" name="complainant_resident_id" onchange="populateComplainantInfo()">
+                        <option value="">-- Select Resident --</option>
+                        <?php foreach ($residents as $resident): ?>
+                        <option value="<?= $resident['id'] ?>" data-name="<?= htmlspecialchars($resident['full_name']) ?>">
+                            <?= htmlspecialchars($resident['full_name']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="complainant_name">Complainant Name*</label>
+                    <input type="text" id="complainant_name" name="complainant_name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="complainant_address">Complainant Address*</label>
+                    <input type="text" id="complainant_address" name="complainant_address" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="complainant_contact">Complainant Contact</label>
+                    <input type="text" id="complainant_contact" name="complainant_contact">
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>Respondent Information</h3>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="respondent_resident_id">Select Registered Resident (Optional)</label>
+                    <select id="respondent_resident_id" name="respondent_resident_id" onchange="populateRespondentInfo()">
+                        <option value="">-- Select Resident --</option>
+                        <?php foreach ($residents as $resident): ?>
+                        <option value="<?= $resident['id'] ?>" data-name="<?= htmlspecialchars($resident['full_name']) ?>">
+                            <?= htmlspecialchars($resident['full_name']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="respondent_name">Respondent Name*</label>
+                    <input type="text" id="respondent_name" name="respondent_name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="respondent_address">Respondent Address*</label>
+                    <input type="text" id="respondent_address" name="respondent_address" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="respondent_contact">Respondent Contact</label>
+                    <input type="text" id="respondent_contact" name="respondent_contact">
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>Status and Action</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="status">Status*</label>
+                    <select id="status" name="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Dismissed">Dismissed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="action_taken">Action Taken</label>
+                    <textarea id="action_taken" name="action_taken" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-buttons">
+            <button type="submit" class="submit-btn">Save Blotter Record</button>
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<style>
+.blotter-add-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    color: white;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.view-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #4CAF50;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.form-section h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group.full-width {
+    flex-basis: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.submit-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* We've moved these styles to the main blotter.php file for better consistency */
+
+@media (max-width: 768px) {
+    .form-group {
+        flex-basis: 100%;
+    }
+    
+    #blotterModal .modal-content {
+        width: 95%;
+        margin: 2vh auto;
+    }
+}
+</style>
+
+<script>
+function populateComplainantInfo() {
+    const select = document.getElementById('complainant_resident_id');
+    if (select.value) {
+        const selectedOption = select.options[select.selectedIndex];
+        document.getElementById('complainant_name').value = selectedOption.getAttribute('data-name');
+    }
+}
+
+function populateRespondentInfo() {
+    const select = document.getElementById('respondent_resident_id');
+    if (select.value) {
+        const selectedOption = select.options[select.selectedIndex];
+        document.getElementById('respondent_name').value = selectedOption.getAttribute('data-name');
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById('blotterModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// Set today's date as default for incident date
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('incident_date').value = today;
+});
+</script> 

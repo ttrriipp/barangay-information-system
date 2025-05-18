@@ -1,0 +1,59 @@
+2025-05-18 05:35:35 - Starting save-blotter.php
+2025-05-18 05:35:35 - POST request received
+2025-05-18 05:35:35 - Connected to database
+2025-05-18 05:35:35 - Generated blotter ID: BLT-2025-001
+2025-05-18 05:35:35 - POST data: Array
+(
+    [incident_type] => asdfdsf
+    [incident_date] => 2025-05-03
+    [incident_time] => 14:31
+    [incident_location] => asdfsdf
+    [incident_details] => asdfsdf
+    [complainant_resident_id] => 6
+    [complainant_name] => sdfsdf
+    [complainant_address] => dsfdsf
+    [complainant_contact] => sdf
+    [respondent_resident_id] => 1
+    [respondent_name] => sfsdf
+    [respondent_address] => sdfsdf
+    [respondent_contact] => sdf
+    [status] => Dismissed
+    [action_taken] => sdfsdf
+)
+
+2025-05-18 05:35:35 - Query: INSERT INTO blotter_records (
+            blotter_id, incident_type, complainant_name, complainant_address, complainant_contact, complainant_resident_id,
+            respondent_name, respondent_address, respondent_contact, respondent_resident_id,
+            incident_date, incident_time, incident_location, incident_details, status, action_taken
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-05-18 05:38:12 - Starting save-blotter.php
+2025-05-18 05:38:12 - POST request received
+2025-05-18 05:38:12 - Connected to database
+2025-05-18 05:38:12 - Generated blotter ID: BLT-2025-001
+2025-05-18 05:38:12 - POST data: Array
+(
+    [incident_type] => asdfsd
+    [incident_date] => 2025-05-15
+    [incident_time] => 14:31
+    [incident_location] => sdfsdf
+    [incident_details] => sdfsadf
+    [complainant_resident_id] => 6
+    [complainant_name] => sdfsdaf
+    [complainant_address] => asdfsadf
+    [complainant_contact] => asdfdf
+    [respondent_resident_id] => 6
+    [respondent_name] => sdfsadf
+    [respondent_address] => asdfdsf
+    [respondent_contact] => sdfsdf
+    [status] => Ongoing
+    [action_taken] => sdfsdf
+)
+
+2025-05-18 05:38:12 - Query: INSERT INTO blotter_records (
+            blotter_id, incident_type, complainant_name, complainant_address, complainant_contact, complainant_resident_id,
+            respondent_name, respondent_address, respondent_contact, respondent_resident_id,
+            incident_date, incident_time, incident_location, incident_details, status, action_taken
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-05-18 05:38:12 - Bind parameters complete
+2025-05-18 05:38:12 - Insert successful, ID: 4
+2025-05-18 05:38:12 - Success, redirecting to blotter.php

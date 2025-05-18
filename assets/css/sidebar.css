@@ -2,7 +2,7 @@
 .sidebar {
     background-color: #1a237e;
     color: #ffffff;
-    width: 18vw;
+    width: 20vw;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -40,7 +40,6 @@ nav ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 200px;
 }
 
 nav ul li {
