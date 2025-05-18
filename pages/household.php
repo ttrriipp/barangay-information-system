@@ -68,8 +68,12 @@ if ($conn) {
                         <td><?= htmlspecialchars($household['address']) ?></td>
                         <td><?= htmlspecialchars($household['member_count']) ?></td>
                         <td class="action-buttons">
-                            <button class="text-button view-btn" onclick="viewHousehold(<?= $household['id'] ?>)">View</button>
-                            <button class="text-button edit-btn" onclick="editHousehold(<?= $household['id'] ?>)">Edit</button>
+                            <button class="icon-button view-btn" onclick="openModal('partials/household-view.php?id=<?= $household['id'] ?>')" title="View Household">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="icon-button edit-btn" onclick="editHousehold(<?= $household['id'] ?>)" title="Edit Household">
+                                <i class="fas fa-edit"></i>
+                            </button>
                             <button class="icon-button delete-btn" onclick="deleteHousehold(<?= $household['id'] ?>)" title="Delete Household">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
@@ -91,41 +95,7 @@ if ($conn) {
     </div>
 </div>
 
-<!-- Household Details Modal -->
-<div id="householdDetailsModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button details-close-button">&times;</span>
-        <div class="details-modal-body">
-            <div class="details-header">
-                <h2>Household Information</h2>
-            </div>
-            <div class="household-info">
-                <div class="info-row">
-                    <strong>Name:</strong>
-                    <span id="household-name"></span>
-                </div>
-            </div>
-            <div class="members-section">
-                <h3>Household Members</h3>
-                <table class="members-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                        </tr>
-                    </thead>
-                    <tbody id="members-list">
-                        <!-- Members will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn close-btn" onclick="closeDetailsModal()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteConfirmModal" class="modal" style="display: none;">
