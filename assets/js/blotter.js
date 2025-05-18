@@ -3,6 +3,17 @@ const searchInput = document.getElementById('searchInput');
 const blotterTable = document.getElementById('blotterTable');
 const blotterTableBody = document.getElementById('blotterTableBody');
 const modal = document.getElementById('blotterModal');
+
+// Add debounce search event listener
+let searchTimeout;
+if (searchInput) {
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            searchBlotters();
+        }, 500); // 500ms delay
+    });
+}
 const modalBody = modal.querySelector('.modal-body');
 const closeButton = modal.querySelector('.close-button');
 const deleteModal = document.getElementById('deleteConfirmModal');
@@ -101,37 +112,122 @@ function confirmDelete() {
 
 // Search functionality
 function searchBlotters() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const rows = blotterTableBody.getElementsByTagName('tr');
-    
-    // If we're searching, hide the pagination as we're filtering the table directly
+    const searchTerm = searchInput.value.trim();
+    const tableBody = blotterTableBody;
     const pagination = document.querySelector('.pagination');
-    if (pagination) {
-        pagination.style.display = searchTerm.length > 0 ? 'none' : 'flex';
+    
+    // If search term is empty, reload the page to restore pagination
+    if (searchTerm === '') {
+        if (window.location.href.includes('?')) {
+            window.location.href = window.location.href.split('?')[0];
+        } else {
+            window.location.reload();
+        }
+        return;
     }
     
-    for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const cells = row.getElementsByTagName('td');
-        let found = false;
-        
-        // Check for match in blotter number (first column - index 0)
-        const blotterNumber = cells[0].textContent.toLowerCase();
-        if (blotterNumber.indexOf(searchTerm) > -1) {
-            found = true;
-        } else {
-            // Search through each of the other cells
-            for (let j = 1; j < cells.length - 1; j++) { // Skip the last column (actions)
-                const cellText = cells[j].textContent.toLowerCase();
-                if (cellText.indexOf(searchTerm) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-        }
-        
-        row.style.display = found ? '' : 'none';
+    // Hide pagination while searching
+    if (pagination) {
+        pagination.style.display = 'none';
     }
+    
+    // Show loading indicator
+    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Searching...</td></tr>';
+    
+    // Fetch results from server
+    fetch(`../controllers/search-blotters.php?term=${encodeURIComponent(searchTerm)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the table
+                tableBody.innerHTML = '';
+                
+                if (data.blotters.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No blotter records found</td></tr>';
+                    return;
+                }
+                
+                // Populate table with search results
+                data.blotters.forEach((blotter, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // No column
+                    const noCell = document.createElement('td');
+                    noCell.textContent = index + 1;
+                    row.appendChild(noCell);
+                    
+                    // Blotter ID column
+                    const idCell = document.createElement('td');
+                    idCell.textContent = blotter.blotter_id;
+                    row.appendChild(idCell);
+                    
+                    // Incident Type column
+                    const typeCell = document.createElement('td');
+                    typeCell.textContent = blotter.incident_type;
+                    row.appendChild(typeCell);
+                    
+                    // Complainant column
+                    const complainantCell = document.createElement('td');
+                    complainantCell.textContent = blotter.complainant_name;
+                    row.appendChild(complainantCell);
+                    
+                    // Respondent column
+                    const respondentCell = document.createElement('td');
+                    respondentCell.textContent = blotter.respondent_name;
+                    row.appendChild(respondentCell);
+                    
+                    // Incident Date column
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = blotter.incident_date_formatted;
+                    row.appendChild(dateCell);
+                    
+                    // Status column
+                    const statusCell = document.createElement('td');
+                    const statusSpan = document.createElement('span');
+                    statusSpan.className = `status-badge status-${blotter.status.toLowerCase()}`;
+                    statusSpan.textContent = blotter.status;
+                    statusCell.appendChild(statusSpan);
+                    row.appendChild(statusCell);
+                    
+                    // Actions column
+                    const actionsCell = document.createElement('td');
+                    actionsCell.className = 'action-buttons';
+                    
+                    // View button
+                    const viewBtn = document.createElement('button');
+                    viewBtn.className = 'icon-button view-btn';
+                    viewBtn.setAttribute('onclick', `openModal('partials/blotter-view.php?id=${blotter.id}')`);
+                    viewBtn.title = 'View Blotter Details';
+                    viewBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                    actionsCell.appendChild(viewBtn);
+                    
+                    // Edit button
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'icon-button edit-btn';
+                    editBtn.setAttribute('onclick', `editBlotter(${blotter.id})`);
+                    editBtn.title = 'Edit Blotter';
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                    actionsCell.appendChild(editBtn);
+                    
+                    // Delete button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'icon-button delete-btn';
+                    deleteBtn.setAttribute('onclick', `deleteBlotter(${blotter.id})`);
+                    deleteBtn.title = 'Delete Blotter';
+                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                    actionsCell.appendChild(deleteBtn);
+                    
+                    row.appendChild(actionsCell);
+                    tableBody.appendChild(row);
+                });
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">Error: ${data.message}</td></tr>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Error searching blotter records</td></tr>';
+        });
 }
 
 // Event listeners

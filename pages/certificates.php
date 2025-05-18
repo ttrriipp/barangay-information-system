@@ -49,7 +49,7 @@ if ($conn) {
     // Fetch certificate records with pagination
     $query = "SELECT id, resident_name, certificate_type, purpose, issue_date, issued_by
               FROM certificates
-              ORDER BY issue_date DESC
+              ORDER BY id ASC
               LIMIT $offset, $records_per_page";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -74,7 +74,7 @@ $total_pages = ceil($total_records / $records_per_page);
     <div class="search-and-add-container">
         <div class="search-box">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Search by No., name, type, purpose..." onkeyup="searchCertificates()">
+            <input type="text" id="searchInput" placeholder="Search by No., name, type, purpose...">
         </div>
         <button class="text-button add-btn" onclick="issueCertificate()">Issue New Certificate</button>
     </div>
@@ -205,6 +205,18 @@ $total_pages = ceil($total_records / $records_per_page);
     const closeButton = document.querySelector('.close-button');
     const deleteConfirmModal = document.getElementById('deleteConfirmModal');
     
+    // Add debounce search event listener
+    let searchTimeout;
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                searchCertificates();
+            }, 500); // 500ms delay
+        });
+    }
+    
     // Function to open modal for certificate issuance
     function issueCertificate() {
         modal.style.display = 'block';
@@ -218,41 +230,107 @@ $total_pages = ceil($total_records / $records_per_page);
     
     // Search certificates functionality
     function searchCertificates() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const tbody = document.getElementById('certificateTableBody');
-        const rows = tbody.getElementsByTagName('tr');
-        
-        // If we're searching, hide the pagination as we're filtering the table directly
+        const searchInput = document.getElementById('searchInput');
+        const searchTerm = searchInput.value.trim();
+        const tableBody = document.getElementById('certificateTableBody');
         const pagination = document.querySelector('.pagination');
-        if (pagination) {
-            pagination.style.display = filter.length > 0 ? 'none' : 'flex';
+        
+        // If search term is empty, reload the page to restore pagination
+        if (searchTerm === '') {
+            if (window.location.href.includes('?')) {
+                window.location.href = window.location.href.split('?')[0];
+            } else {
+                window.location.reload();
+            }
+            return;
         }
         
-        for (let i = 0; i < rows.length; i++) {
-            // Get all cells in the row
-            const cells = rows[i].getElementsByTagName('td');
-            let found = false;
-            
-            // Check for match in certificate number (first column - index 0)
-            const certificateNumber = cells[0].textContent || cells[0].innerText;
-            if (certificateNumber.toUpperCase().indexOf(filter) > -1) {
-                found = true;
-            } else {
-                // Check other relevant columns (name, type, purpose)
-                for (let j = 1; j <= 3; j++) { // columns 1, 2, 3 are name, type, purpose
-                    if (cells[j]) {
-                        const cellText = cells[j].textContent || cells[j].innerText;
-                        if (cellText.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            rows[i].style.display = found ? '' : 'none';
+        // Hide pagination while searching
+        if (pagination) {
+            pagination.style.display = 'none';
         }
+        
+        // Show loading indicator
+        tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Searching...</td></tr>';
+        
+        // Fetch results from server
+        fetch(`../controllers/search-certificates.php?term=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Clear the table
+                    tableBody.innerHTML = '';
+                    
+                    if (data.certificates.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No certificates found</td></tr>';
+                        return;
+                    }
+                    
+                    // Populate table with search results
+                    data.certificates.forEach((certificate, index) => {
+                        const row = document.createElement('tr');
+                        
+                        // No column
+                        const noCell = document.createElement('td');
+                        noCell.textContent = index + 1;
+                        row.appendChild(noCell);
+                        
+                        // Name column
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = certificate.resident_name;
+                        row.appendChild(nameCell);
+                        
+                        // Certificate Type column
+                        const typeCell = document.createElement('td');
+                        typeCell.textContent = certificate.certificate_type;
+                        row.appendChild(typeCell);
+                        
+                        // Purpose column
+                        const purposeCell = document.createElement('td');
+                        purposeCell.textContent = certificate.purpose;
+                        row.appendChild(purposeCell);
+                        
+                        // Issue Date column
+                        const dateCell = document.createElement('td');
+                        dateCell.textContent = certificate.issue_date;
+                        row.appendChild(dateCell);
+                        
+                        // Issued By column
+                        const issuedByCell = document.createElement('td');
+                        issuedByCell.textContent = certificate.issued_by;
+                        row.appendChild(issuedByCell);
+                        
+                        // Actions column
+                        const actionsCell = document.createElement('td');
+                        actionsCell.className = 'action-buttons';
+                        
+                        // Print button
+                        const printBtn = document.createElement('button');
+                        printBtn.className = 'icon-button view-btn';
+                        printBtn.setAttribute('onclick', `printCertificate(${certificate.id})`);
+                        printBtn.title = 'Print Certificate';
+                        printBtn.innerHTML = '<i class="fas fa-print"></i>';
+                        actionsCell.appendChild(printBtn);
+                        
+                        // Delete button
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'icon-button delete-btn';
+                        deleteBtn.setAttribute('onclick', `deleteCertificate(${certificate.id})`);
+                        deleteBtn.title = 'Delete Certificate';
+                        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                        actionsCell.appendChild(deleteBtn);
+                        
+                        row.appendChild(actionsCell);
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Error: ${data.message}</td></tr>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Error searching certificates</td></tr>';
+            });
     }
     
     // Print certificate

@@ -156,7 +156,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(1, 'admin', '123', 'admin'),
+(1, 'admin', '$2y$10$u8IIpBp3lVYLLG7Xm5G5NeXsgeij5/b/mYnw9y9T9Ru3pRmcaoA8.', 'admin'),
 (2, 'user', '$2y$10$u8IIpBp3lVYLLG7Xm5G5NeXsgeij5/b/mYnw9y9T9Ru3pRmcaoA8.', 'user');
 
 --

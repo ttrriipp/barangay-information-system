@@ -43,7 +43,7 @@ if ($conn) {
               r.address, r.age, r.sex, r.contact,
               r.civil_status, r.occupation, r.voter_status
           FROM residents r
-          ORDER BY r.surname, r.firstname
+          ORDER BY r.id ASC
           LIMIT $offset, $records_per_page";
 
     $result = mysqli_query($conn, $query);
@@ -78,7 +78,7 @@ $total_pages = ceil($total_records / $records_per_page);
 
             <i class="fas fa-search search-icon"></i>
 
-            <input type="text" id="searchInput" placeholder="Search by No., name, address..." onkeyup="searchResidents()">
+            <input type="text" id="searchInput" placeholder="Search by No., name, address...">
 
         </div>
 

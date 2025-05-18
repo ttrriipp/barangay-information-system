@@ -37,7 +37,7 @@ if ($conn) {
     $query = "SELECT id, blotter_id, incident_type, complainant_name, respondent_name, 
               incident_date, status, date_reported 
               FROM blotter_records 
-              ORDER BY date_reported DESC
+              ORDER BY id ASC
               LIMIT $offset, $records_per_page";
     
     $result = mysqli_query($conn, $query);
@@ -77,7 +77,7 @@ $total_pages = ceil($total_records / $records_per_page);
     <div class="search-and-add-container">
         <div class="search-box">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Search by No., Blotter ID, type, names..." onkeyup="searchBlotters()">
+            <input type="text" id="searchInput" placeholder="Search by No., Blotter ID, type, names...">
         </div>
         <button class="text-button add-btn" onclick="addBlotter()">File New Blotter</button>
     </div>

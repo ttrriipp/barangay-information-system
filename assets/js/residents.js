@@ -12,46 +12,130 @@ let residentToDelete = null;
 
 // Search functionality
 function searchResidents() {
-    // Get the search input value
     const searchInput = document.getElementById('searchInput');
-    const filter = searchInput.value.toUpperCase();
-    const table = document.getElementById('residentTable');
-    const rows = table.getElementsByTagName('tr');
-    
-    // If we're searching, hide the pagination as we're filtering the table directly
+    const searchTerm = searchInput.value.trim();
+    const tableBody = document.getElementById('residentTableBody');
     const pagination = document.querySelector('.pagination');
-    if (pagination) {
-        pagination.style.display = filter.length > 0 ? 'none' : 'flex';
+    
+    // If search term is empty, reload the page to restore pagination
+    if (searchTerm === '') {
+        if (window.location.href.includes('?')) {
+            window.location.href = window.location.href.split('?')[0];
+        } else {
+            window.location.reload();
+        }
+        return;
     }
     
-    // Start from index 1 to skip the header row
-    for (let i = 1; i < rows.length; i++) {
-        let found = false;
-        // Get all cells in the row except the last one (actions)
-        const cells = rows[i].getElementsByTagName('td');
-        
-        // Check for match in resident number (first column - index 0)
-        const residentNumber = cells[0].textContent || cells[0].innerText;
-        if (residentNumber.toUpperCase().indexOf(filter) > -1) {
-            found = true;
-        } else {
-            // Search through remaining cells
-            for (let j = 1; j < cells.length - 1; j++) {
-                const cellText = cells[j].textContent || cells[j].innerText;
-                if (cellText.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-        }
-        
-        // Show or hide the row based on search match
-        if (found) {
-            rows[i].style.display = '';
-        } else {
-            rows[i].style.display = 'none';
-        }
+    // Hide pagination while searching
+    if (pagination) {
+        pagination.style.display = 'none';
     }
+    
+    // Show loading indicator
+    tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center;">Searching...</td></tr>';
+    
+    // Fetch results from server
+    fetch(`../controllers/search-residents.php?term=${encodeURIComponent(searchTerm)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the table
+                tableBody.innerHTML = '';
+                
+                if (data.residents.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center;">No residents found</td></tr>';
+                    return;
+                }
+                
+                // Populate table with search results
+                data.residents.forEach((resident, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // No column
+                    const noCell = document.createElement('td');
+                    noCell.textContent = index + 1;
+                    row.appendChild(noCell);
+                    
+                    // Name column
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = resident.fullname;
+                    row.appendChild(nameCell);
+                    
+                    // Address column
+                    const addressCell = document.createElement('td');
+                    addressCell.textContent = resident.address;
+                    row.appendChild(addressCell);
+                    
+                    // Age column
+                    const ageCell = document.createElement('td');
+                    ageCell.textContent = resident.age;
+                    row.appendChild(ageCell);
+                    
+                    // Sex column
+                    const sexCell = document.createElement('td');
+                    sexCell.textContent = resident.sex;
+                    row.appendChild(sexCell);
+                    
+                    // Contact column
+                    const contactCell = document.createElement('td');
+                    contactCell.textContent = resident.contact;
+                    row.appendChild(contactCell);
+                    
+                    // Civil Status column
+                    const civilStatusCell = document.createElement('td');
+                    civilStatusCell.textContent = resident.civil_status || 'N/A';
+                    row.appendChild(civilStatusCell);
+                    
+                    // Occupation column
+                    const occupationCell = document.createElement('td');
+                    occupationCell.textContent = resident.occupation || 'N/A';
+                    row.appendChild(occupationCell);
+                    
+                    // Voter column
+                    const voterCell = document.createElement('td');
+                    voterCell.textContent = resident.voter_status || 'N/A';
+                    row.appendChild(voterCell);
+                    
+                    // Actions column
+                    const actionsCell = document.createElement('td');
+                    actionsCell.className = 'action-buttons';
+                    
+                    // View button
+                    const viewBtn = document.createElement('button');
+                    viewBtn.className = 'icon-button view-btn';
+                    viewBtn.setAttribute('onclick', `openModal('partials/resident-view.php?id=${resident.id}')`);
+                    viewBtn.title = 'View Resident Details';
+                    viewBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                    actionsCell.appendChild(viewBtn);
+                    
+                    // Edit button
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'icon-button edit-btn';
+                    editBtn.setAttribute('onclick', `editResident(${resident.id})`);
+                    editBtn.title = 'Edit Resident';
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                    actionsCell.appendChild(editBtn);
+                    
+                    // Delete button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'icon-button delete-btn';
+                    deleteBtn.setAttribute('onclick', `deleteResident(${resident.id})`);
+                    deleteBtn.title = 'Delete Resident';
+                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                    actionsCell.appendChild(deleteBtn);
+                    
+                    row.appendChild(actionsCell);
+                    tableBody.appendChild(row);
+                });
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="10" style="text-align: center;">Error: ${data.message}</td></tr>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center;">Error searching residents</td></tr>';
+        });
 }
 
 // Function to open modal and load content
@@ -131,6 +215,18 @@ function executeDelete() {
     .catch(error => {
         console.error('Error:', error);
         alert('There was an error deleting the resident.');
+    });
+}
+
+// Add debounce search event listener
+let searchTimeout;
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            searchResidents();
+        }, 500); // 500ms delay
     });
 }
 

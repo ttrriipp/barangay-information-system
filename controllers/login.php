@@ -21,35 +21,24 @@ session_start();
 
             $statement->bind_result($id, $username, $password, $role);
             if($statement->fetch()){
-                if ($accountType === 'admin' && $role === 'admin') {
-                    if ($passlog === $password){
-                        $_SESSION["id"] = $id;
-                        $_SESSION["username"] = $username;
-                        $_SESSION["role"] = $role;
-                        header("Location: ../pages/dashboard.php");
-                        exit();
-                    }
-                }
-                if (password_verify($passlog, $password)){
-                    // Check if the selected account type matches the user's role
-                    if($accountType !== $role){
-                        echo "<script>alert('You do not have access to this account type!')</script>";
-                    } else {
-                        $_SESSION["id"] = $id;
-                        $_SESSION["username"] = $username;
-                        $_SESSION["role"] = $role;
-                        
-                        // Redirect based on user role
-                        if($role === "admin") {
-                            header("Location: ../pages/dashboard.php");
-                        } else {
-                            header("Location: ../pages/user.php");
-                        }
-                        exit();
-                    }
-                }else if ($accountType === 'user' && $role === 'admin') {
+                // Check if the selected account type matches the user's role
+                if($accountType !== $role){
                     echo "<script>alert('You do not have access to this account type!')</script>";
-                } else { 
+                } 
+                else if (password_verify($passlog, $password)){
+                    $_SESSION["id"] = $id;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["role"] = $role;
+                    
+                    // Redirect based on user role
+                    if($role === "admin") {
+                        header("Location: ../pages/dashboard.php");
+                    } else {
+                        header("Location: ../pages/user.php");
+                    }
+                    exit();
+                } 
+                else { 
                     echo "<script>alert('Incorrect password!')</script>";
                 }
             } else {
