@@ -21,10 +21,6 @@
                 <input type="text" id="username" name="user" required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="pass" required>
-                <div class="remember-me">
-                    <input type="checkbox" id="rememberMe" name="rememberMe">
-                    <label for="rememberMe">Remember me</label>
-                </div>
                 <button type="submit">Login <i class="fas fa-arrow-right"></i></button>
             </form>
             <p id="p2">Don't have an account yet? <a href="../controllers/register.php">Create Account</a></p>
