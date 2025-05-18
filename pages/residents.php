@@ -18,42 +18,46 @@ require("partials/head.php");
 
 require("../database.php");
 
+// Pagination settings
+$records_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $records_per_page;
 
-
-// Fetch residents from the database
-
+// Fetch residents from the database with pagination
 $conn = getDatabaseConnection();
-
 $residents = [];
+$total_records = 0;
 
 if ($conn) {
+    // Get total number of records
+    $count_query = "SELECT COUNT(*) as total FROM residents";
+    $count_result = mysqli_query($conn, $count_query);
+    if ($count_result) {
+        $count_row = mysqli_fetch_assoc($count_result);
+        $total_records = $count_row['total'];
+    }
 
+    // Get residents with pagination
     $query = "SELECT r.id, 
-                  CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
-                  r.address, r.age, r.sex, r.contact,
-                  r.civil_status, r.occupation, r.voter_status,
-                  CONCAT(h.id, ': ', hr.surname, ', ', hr.firstname) AS household_name
-              FROM residents r
-              LEFT JOIN households h ON r.household_id = h.id
-              LEFT JOIN residents hr ON h.head_id = hr.id
-              ORDER BY r.surname, r.firstname";
+              CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
+              r.address, r.age, r.sex, r.contact,
+              r.civil_status, r.occupation, r.voter_status
+          FROM residents r
+          ORDER BY r.surname, r.firstname
+          LIMIT $offset, $records_per_page";
 
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-
         while ($row = mysqli_fetch_assoc($result)) {
-
             $residents[] = $row;
-
         }
-
     }
 
     mysqli_close($conn);
-
 }
 
+$total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <?php require("partials/sidebar.php") ?>
@@ -74,7 +78,7 @@ if ($conn) {
 
             <i class="fas fa-search search-icon"></i>
 
-            <input type="text" id="searchInput" placeholder="Search residents..." onkeyup="searchResidents()">
+            <input type="text" id="searchInput" placeholder="Search by No., name, address..." onkeyup="searchResidents()">
 
         </div>
 
@@ -110,8 +114,6 @@ if ($conn) {
 
                     <th>Voter</th>
 
-                    <th>Household</th>
-
                     <th>Actions</th>
 
                 </tr>
@@ -124,7 +126,7 @@ if ($conn) {
 
                     <tr>
 
-                        <td><?= $index + 1 ?></td>
+                        <td><?= ($offset + $index + 1) ?></td>
 
                         <td><?= htmlspecialchars($resident['fullname']) ?></td>
 
@@ -141,8 +143,6 @@ if ($conn) {
                         <td><?= htmlspecialchars($resident['occupation'] ?? 'N/A') ?></td>
 
                         <td><?= htmlspecialchars($resident['voter_status'] ?? 'N/A') ?></td>
-
-                        <td><?= htmlspecialchars($resident['household_name'] ?? 'N/A') ?></td>
 
                         <td class="action-buttons">
 
@@ -174,6 +174,34 @@ if ($conn) {
 
         </table>
 
+        
+
+        <!-- Pagination Controls -->
+        <?php if ($total_pages > 1): ?>
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?page=1" title="First Page">&laquo;&laquo;</a>
+                <a href="?page=<?= ($page - 1) ?>" title="Previous Page">&laquo;</a>
+            <?php endif; ?>
+            
+            <?php
+            // Display page links
+            $start_page = max(1, $page - 2);
+            $end_page = min($total_pages, $page + 2);
+            
+            for ($i = $start_page; $i <= $end_page; $i++): 
+            ?>
+                <a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+            
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?= ($page + 1) ?>" title="Next Page">&raquo;</a>
+                <a href="?page=<?= $total_pages ?>" title="Last Page">&raquo;&raquo;</a>
+            <?php endif; ?>
+            
+            <span class="page-info">Page <?= $page ?> of <?= $total_pages ?></span>
+        </div>
+        <?php endif; ?>
     </div>
 
 </div>

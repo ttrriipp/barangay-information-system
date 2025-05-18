@@ -24,8 +24,7 @@ $resident = [
     'blood_type' => '',
     'religion' => '',
     'nationality' => 'Filipino',
-    'date_of_residency' => '',
-    'household_id' => ''
+    'date_of_residency' => ''
 ];
 $isEdit = false;
 
@@ -35,7 +34,7 @@ if (isset($_GET['id'])) {
     $stmt = $conn->prepare("SELECT surname, firstname, middlename, birthdate, age, sex, address, contact, email, 
                           civil_status, occupation, education, voter_status, pwd_status, 
                           philhealth_status, 4ps_status, emergency_contact_name, emergency_contact_number,
-                          blood_type, religion, nationality, date_of_residency, household_id 
+                          blood_type, religion, nationality, date_of_residency 
                           FROM residents WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -47,25 +46,17 @@ if (isset($_GET['id'])) {
         $resident['voter_status'], $resident['pwd_status'], $resident['philhealth_status'],
         $resident['4ps_status'], $resident['emergency_contact_name'], $resident['emergency_contact_number'],
         $resident['blood_type'], $resident['religion'], $resident['nationality'], 
-        $resident['date_of_residency'], $resident['household_id']
+        $resident['date_of_residency']
     );
     $stmt->fetch();
     $stmt->close();
 }
-
-// Get all households for dropdown
-$householdsStmt = $conn->prepare("SELECT h.id, CONCAT(r.surname, ', ', r.firstname, ' (', h.address, ')') AS household_name 
-                                FROM households h 
-                                JOIN residents r ON h.head_id = r.id 
-                                ORDER BY r.surname, r.firstname");
-$householdsStmt->execute();
-$householdsResult = $householdsStmt->get_result();
-$households = [];
-while ($row = $householdsResult->fetch_assoc()) {
-    $households[] = $row;
-}
-$householdsStmt->close();
 ?>
+<div class="modal-content-header">
+    <img src="../assets/images/logo-cupangwest.png" alt="Cupang West Logo" class="header-logo" />
+    <h2><?= $isEdit ? 'Edit Resident' : 'Add New Resident' ?></h2>
+</div>
+
 <div class="modal-flex-container">
     <div class="form-container">
         <form id="residentForm" action="../controllers/popupdb.php" method="POST">
@@ -193,26 +184,11 @@ $householdsStmt->close();
                 <option value="Yes" <?= $resident['4ps_status'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
                 <option value="No" <?= $resident['4ps_status'] == 'No' ? 'selected' : '' ?>>No</option>
             </select>
-            
-            <h2 class="form-section-title">Household Information</h2>
-
-            <label for="household">Household:</label>
-            <select id="household" name="household_id">
-                <option value="">No Household</option>
-                <?php foreach ($households as $household): ?>
-                    <option value="<?= $household['id'] ?>" <?= $resident['household_id'] == $household['id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($household['household_name']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
 
             <button type="submit" name="<?= $isEdit ? 'residentedit' : 'residentadd' ?>">
                 <?= $isEdit ? 'Update' : 'Submit' ?>
             </button>
         </form>
-    </div>
-    <div class="logo-container">
-        <img src="../assets/images/logo-cupangwest.png" alt="Cupang West Logo" />
     </div>
 </div> 
 
@@ -237,6 +213,39 @@ function calculateAge() {
 </script>
 
 <style>
+.modal-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    flex-direction: column;
+    text-align: center;
+}
+
+.modal-content-header h2 {
+    color: white;
+    margin: 10px 0 0 0;
+    font-size: 1.8rem;
+}
+
+.header-logo {
+    width: 120px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.modal-flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    width: 100% !important;
+    max-width: 700px;
+}
+
 .form-section-title {
     width: 100%;
     text-align: left;
@@ -291,14 +300,42 @@ function calculateAge() {
     text-overflow: ellipsis !important;
 }
 
-/* Ensure form container doesn't have max-width constraints */
-.form-container {
-    width: 100% !important;
-}
-
 /* Ensure each form field container is the same width */
 #residentForm label {
     display: block !important;
     margin-bottom: 5px !important;
+}
+
+#residentForm {
+    padding: 0 15px;
+}
+
+#residentForm button[type="submit"] {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-weight: bold !important;
+    margin-top: 20px !important;
+    padding: 12px 25px !important;
+    width: auto !important;
+    transition: all 0.3s ease !important;
+}
+
+#residentForm button[type="submit"]:hover {
+    background-color: #45a049 !important;
+    transform: translateY(-2px) !important;
+}
+
+@media (max-width: 768px) {
+    .header-logo {
+        width: 80px;
+    }
+    
+    .modal-content-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    #residentForm {
+        padding: 0 10px;
+    }
 }
 </style> 

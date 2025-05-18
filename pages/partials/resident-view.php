@@ -35,12 +35,8 @@ $query = $conn->prepare("
         r.blood_type,
         r.religion,
         r.nationality,
-        r.date_of_residency,
-        r.household_id,
-        CONCAT(h.id, ': ', hr.surname, ', ', hr.firstname) AS household_name
+        r.date_of_residency
     FROM residents r
-    LEFT JOIN households h ON r.household_id = h.id
-    LEFT JOIN residents hr ON h.head_id = hr.id
     WHERE r.id = ?
 ");
 $query->bind_param("i", $id);
@@ -171,16 +167,6 @@ $date_of_residency = !empty($resident['date_of_residency']) ? date('F d, Y', str
             <div class="detail-item">
                 <strong>4Ps Beneficiary:</strong>
                 <span><?= htmlspecialchars($resident['4ps_status'] ?? 'N/A') ?></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="details-section">
-        <h3>Household Information</h3>
-        <div class="details-grid">
-            <div class="detail-item">
-                <strong>Household:</strong>
-                <span><?= htmlspecialchars($resident['household_name'] ?? 'No Household') ?></span>
             </div>
         </div>
     </div>

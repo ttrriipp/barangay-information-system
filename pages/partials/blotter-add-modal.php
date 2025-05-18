@@ -76,7 +76,7 @@ if ($residentResult) {
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="complainant_contact">Complainant Contact</label>
                     <input type="text" id="complainant_contact" name="complainant_contact">
                 </div>
@@ -111,7 +111,7 @@ if ($residentResult) {
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="respondent_contact">Respondent Contact</label>
                     <input type="text" id="respondent_contact" name="respondent_contact">
                 </div>
@@ -121,7 +121,7 @@ if ($residentResult) {
         <div class="form-section">
             <h3>Status and Action</h3>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="status">Status*</label>
                     <select id="status" name="status" required>
                         <option value="Pending">Pending</option>
@@ -154,6 +154,12 @@ if ($residentResult) {
     color: white;
     max-height: 80vh;
     overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.blotter-add-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .view-header {
@@ -184,11 +190,29 @@ if ($residentResult) {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 15px;
+    align-items: flex-start;
 }
 
 .form-group {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px;
+}
+
+/* Make the date and time fields have a fixed width */
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Fix the first row layout */
+.form-section:first-of-type .form-row:first-of-type .form-group:first-of-type {
+    flex: 2;
+}
+
+.form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(2),
+.form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(3) {
+    flex: 1;
 }
 
 .form-group.full-width {
@@ -212,10 +236,15 @@ if ($residentResult) {
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
+    box-sizing: border-box;
+    height: 40px;
+    font-size: 14px;
 }
 
 .form-group textarea {
     resize: vertical;
+    height: auto;
+    min-height: 80px;
 }
 
 .form-buttons {
@@ -265,6 +294,13 @@ if ($residentResult) {
         width: 95%;
         margin: 2vh auto;
     }
+
+    /* First row element adjustments for mobile */
+    .form-section:first-of-type .form-row:first-of-type .form-group:first-of-type,
+    .form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(2),
+    .form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(3) {
+        flex: 1 0 100%;
+    }
 }
 </style>
 
@@ -286,8 +322,20 @@ function populateRespondentInfo() {
 }
 
 function closeModal() {
-    const modal = document.getElementById('blotterModal');
-    if (modal) modal.style.display = 'none';
+    // Use window.parent to access the parent window's modal
+    if (window.parent && window.parent.document) {
+        const parentModal = window.parent.document.getElementById('blotterModal');
+        if (parentModal) parentModal.style.display = 'none';
+    } else {
+        // Fallback to looking for the modal in the current document
+        const modal = document.getElementById('blotterModal');
+        if (modal) modal.style.display = 'none';
+        
+        // Alternative approach - tell the parent window to close the modal
+        if (window.parent) {
+            window.parent.postMessage('closeBlotterModal', '*');
+        }
+    }
 }
 
 // Set today's date as default for incident date

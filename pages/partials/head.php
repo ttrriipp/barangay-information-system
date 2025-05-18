@@ -12,9 +12,16 @@
     } ?>
     <link rel="stylesheet" href="../assets/css/<?= $style ?>">
     <?php
-    // Load modal CSS on pages that use modals
+    // Load additional styles if specified
+    if (isset($additionalStyles) && is_array($additionalStyles)) {
+        foreach ($additionalStyles as $additionalStyle) {
+            echo '<link rel="stylesheet" href="../assets/css/' . $additionalStyle . '">';
+        }
+    }
+    
+    // Load modal CSS on pages that use modals (for backward compatibility)
     $current_page = basename($_SERVER['PHP_SELF']);
-    if ($current_page === 'residents.php' || $current_page === 'household.php') {
+    if ($current_page === 'residents.php' || $current_page === 'blotter.php') {
         echo '<link rel="stylesheet" href="../assets/css/modal.css">';
     }
     ?>

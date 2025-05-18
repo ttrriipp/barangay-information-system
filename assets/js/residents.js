@@ -18,18 +18,30 @@ function searchResidents() {
     const table = document.getElementById('residentTable');
     const rows = table.getElementsByTagName('tr');
     
+    // If we're searching, hide the pagination as we're filtering the table directly
+    const pagination = document.querySelector('.pagination');
+    if (pagination) {
+        pagination.style.display = filter.length > 0 ? 'none' : 'flex';
+    }
+    
     // Start from index 1 to skip the header row
     for (let i = 1; i < rows.length; i++) {
         let found = false;
         // Get all cells in the row except the last one (actions)
         const cells = rows[i].getElementsByTagName('td');
         
-        // Search through each cell
-        for (let j = 0; j < cells.length - 1; j++) {
-            const cellText = cells[j].textContent || cells[j].innerText;
-            if (cellText.toUpperCase().indexOf(filter) > -1) {
-                found = true;
-                break;
+        // Check for match in resident number (first column - index 0)
+        const residentNumber = cells[0].textContent || cells[0].innerText;
+        if (residentNumber.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+        } else {
+            // Search through remaining cells
+            for (let j = 1; j < cells.length - 1; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
+                if (cellText.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
             }
         }
         

@@ -108,7 +108,7 @@ if ($residentResult) {
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="complainant_contact">Complainant Contact</label>
                     <input type="text" id="complainant_contact" name="complainant_contact" value="<?= htmlspecialchars($blotter['complainant_contact'] ?? '') ?>">
                 </div>
@@ -145,7 +145,7 @@ if ($residentResult) {
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="respondent_contact">Respondent Contact</label>
                     <input type="text" id="respondent_contact" name="respondent_contact" value="<?= htmlspecialchars($blotter['respondent_contact'] ?? '') ?>">
                 </div>
@@ -155,7 +155,7 @@ if ($residentResult) {
         <div class="form-section">
             <h3>Status and Action</h3>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="status">Status*</label>
                     <select id="status" name="status" required>
                         <option value="Pending" <?= ($blotter['status'] == 'Pending') ? 'selected' : '' ?>>Pending</option>
@@ -203,6 +203,12 @@ if ($residentResult) {
     color: white;
     max-height: 80vh;
     overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.blotter-edit-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .view-header {
@@ -233,11 +239,32 @@ if ($residentResult) {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 15px;
+    align-items: flex-start;
 }
 
 .form-group {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px;
+}
+
+/* Make the date and time fields have a fixed width */
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group input[type="datetime-local"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Fix the first row layout for blotter_id and incident_type */
+.form-section:first-of-type .form-row:first-of-type .form-group:first-of-type,
+.form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(2) {
+    flex: 1;
+}
+
+/* Fix the second row layout for date and time */
+.form-section:first-of-type .form-row:nth-of-type(2) .form-group:first-of-type,
+.form-section:first-of-type .form-row:nth-of-type(2) .form-group:nth-of-type(2) {
+    flex: 1;
 }
 
 .form-group.full-width {
@@ -261,6 +288,9 @@ if ($residentResult) {
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
+    box-sizing: border-box;
+    height: 40px;
+    font-size: 14px;
 }
 
 .form-group input[readonly] {
@@ -270,6 +300,8 @@ if ($residentResult) {
 
 .form-group textarea {
     resize: vertical;
+    height: auto;
+    min-height: 80px;
 }
 
 .form-buttons {
@@ -319,6 +351,19 @@ if ($residentResult) {
     .form-group {
         flex-basis: 100%;
     }
+
+    /* First row element adjustments for mobile */
+    .form-section:first-of-type .form-row:first-of-type .form-group:first-of-type,
+    .form-section:first-of-type .form-row:first-of-type .form-group:nth-of-type(2),
+    .form-section:first-of-type .form-row:nth-of-type(2) .form-group:first-of-type,
+    .form-section:first-of-type .form-row:nth-of-type(2) .form-group:nth-of-type(2) {
+        flex: 1 0 100%;
+    }
+    
+    /* Make sure date_resolved is full width on mobile */
+    .form-section:last-child .form-row:first-child .form-group {
+        flex: 1 0 100%;
+    }
 }
 </style>
 
@@ -332,8 +377,20 @@ function populateRespondentInfo() {
 }
 
 function closeModal() {
-    const modal = document.getElementById('blotterModal');
-    if (modal) modal.style.display = 'none';
+    // Use window.parent to access the parent window's modal
+    if (window.parent && window.parent.document) {
+        const parentModal = window.parent.document.getElementById('blotterModal');
+        if (parentModal) parentModal.style.display = 'none';
+    } else {
+        // Fallback to looking for the modal in the current document
+        const modal = document.getElementById('blotterModal');
+        if (modal) modal.style.display = 'none';
+        
+        // Alternative approach - tell the parent window to close the modal
+        if (window.parent) {
+            window.parent.postMessage('closeBlotterModal', '*');
+        }
+    }
 }
 
 // Show resolution fields when status changes to Resolved or Dismissed
@@ -348,10 +405,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add date resolved field if it doesn't exist
             if (!document.getElementById('date_resolved')) {
                 const dateField = document.createElement('div');
-                dateField.className = 'form-group';
+                dateField.className = 'form-group full-width';
                 dateField.innerHTML = `
                     <label for="date_resolved">Date Resolved</label>
                     <input type="datetime-local" id="date_resolved" name="date_resolved" 
+                        style="width: 100%; box-sizing: border-box; height: 40px;"
                         value="${new Date().toISOString().slice(0, 16)}">
                 `;
                 document.querySelector('.form-section:last-child .form-row:first-child').appendChild(dateField);

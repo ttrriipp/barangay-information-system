@@ -9,18 +9,37 @@ if (!isset($_SESSION["username"]) || $_SESSION["role"] !== "admin") {
 }
 
 $style = 'main.css';
+$additionalStyles = ['modal.css'];
 
 require("partials/head.php");
 require("../database.php");
 
-// Fetch blotter records from the database
+// Pagination settings
+$records_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $records_per_page;
+
+// Fetch blotter records from the database with pagination
 $conn = getDatabaseConnection();
 $blotters = [];
+$total_records = 0;
+
 if ($conn) {
+    // Get total number of records
+    $count_query = "SELECT COUNT(*) as total FROM blotter_records";
+    $count_result = mysqli_query($conn, $count_query);
+    if ($count_result) {
+        $count_row = mysqli_fetch_assoc($count_result);
+        $total_records = $count_row['total'];
+    }
+
+    // Get blotter records with pagination
     $query = "SELECT id, blotter_id, incident_type, complainant_name, respondent_name, 
               incident_date, status, date_reported 
               FROM blotter_records 
-              ORDER BY date_reported DESC";
+              ORDER BY date_reported DESC
+              LIMIT $offset, $records_per_page";
+    
     $result = mysqli_query($conn, $query);
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -32,6 +51,8 @@ if ($conn) {
     }
     mysqli_close($conn);
 }
+
+$total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <?php require("partials/sidebar.php") ?>
@@ -56,7 +77,7 @@ if ($conn) {
     <div class="search-and-add-container">
         <div class="search-box">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Search blotter records..." onkeyup="searchBlotters()">
+            <input type="text" id="searchInput" placeholder="Search by No., Blotter ID, type, names..." onkeyup="searchBlotters()">
         </div>
         <button class="text-button add-btn" onclick="addBlotter()">File New Blotter</button>
     </div>
@@ -78,7 +99,7 @@ if ($conn) {
             <tbody id="blotterTableBody">
                 <?php foreach ($blotters as $index => $blotter): ?>
                     <tr>
-                        <td><?= $index + 1 ?></td>
+                        <td><?= ($offset + $index + 1) ?></td>
                         <td><?= htmlspecialchars($blotter['blotter_id']) ?></td>
                         <td><?= htmlspecialchars($blotter['incident_type']) ?></td>
                         <td><?= htmlspecialchars($blotter['complainant_name']) ?></td>
@@ -90,7 +111,7 @@ if ($conn) {
                             </span>
                         </td>
                         <td class="action-buttons">
-                            <button class="icon-button view-btn" onclick="openModal('partials/blotter-view.php?id=<?= $blotter['id'] ?>')" title="View Blotter">
+                            <button class="icon-button view-btn" onclick="openModal('partials/blotter-view.php?id=<?= $blotter['id'] ?>')" title="View Blotter Details">
                                 <i class="fas fa-eye"></i>
                             </button>
                             <button class="icon-button edit-btn" onclick="editBlotter(<?= $blotter['id'] ?>)" title="Edit Blotter">
@@ -104,6 +125,33 @@ if ($conn) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+        
+        <!-- Pagination Controls -->
+        <?php if ($total_pages > 1): ?>
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?page=1" title="First Page">&laquo;&laquo;</a>
+                <a href="?page=<?= ($page - 1) ?>" title="Previous Page">&laquo;</a>
+            <?php endif; ?>
+            
+            <?php
+            // Display page links
+            $start_page = max(1, $page - 2);
+            $end_page = min($total_pages, $page + 2);
+            
+            for ($i = $start_page; $i <= $end_page; $i++): 
+            ?>
+                <a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+            
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?= ($page + 1) ?>" title="Next Page">&raquo;</a>
+                <a href="?page=<?= $total_pages ?>" title="Last Page">&raquo;&raquo;</a>
+            <?php endif; ?>
+            
+            <span class="page-info">Page <?= $page ?> of <?= $total_pages ?></span>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -206,7 +254,7 @@ if ($conn) {
 }
 
 .modal-content {
-    background-color: #1e3a8a; /* Dark blue background */
+    background-color: #1a2b5d; /* Updated to match other modals */
     margin: 5vh auto;
     border-radius: 8px;
     width: 90%;
@@ -234,6 +282,12 @@ if ($conn) {
 
 .modal-body {
     padding: 0;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.modal-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 /* Loading spinner */
@@ -307,5 +361,99 @@ if ($conn) {
 }
 </style>
 
-<script src="../assets/js/blotter.js"></script>
+<script>
+    // Global function to close the modal - can be called from within modals
+    function closeModal() {
+        document.getElementById('blotterModal').style.display = 'none';
+    }
+    
+    // Global searchBlotters function
+    function searchBlotters() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const tbody = document.getElementById('blotterTableBody');
+        const rows = tbody.getElementsByTagName('tr');
+        
+        // If we're searching, hide the pagination as we're filtering the table directly
+        const pagination = document.querySelector('.pagination');
+        if (pagination) {
+            pagination.style.display = filter.length > 0 ? 'none' : 'flex';
+        }
+        
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const cells = row.getElementsByTagName('td');
+            let found = false;
+            
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent.toLowerCase();
+                if (cellText.indexOf(filter.toLowerCase()) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            row.style.display = found ? '' : 'none';
+        }
+    }
+
+    // Open modal with content from URL
+    function openModal(url) {
+        const modal = document.getElementById('blotterModal');
+        const modalBody = modal.querySelector('.modal-body');
+        
+        // Show loading state
+        modalBody.innerHTML = '<div class="loading-spinner"></div>';
+        modal.style.display = 'block';
+        
+        // Fetch content
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                modalBody.innerHTML = data;
+            })
+            .catch(error => {
+                modalBody.innerHTML = `<p class="error-message">Error loading content: ${error.message}</p>`;
+            });
+    }
+
+    // Add new blotter record
+    function addBlotter() {
+        openModal('partials/blotter-add-modal.php');
+    }
+
+    // Edit blotter record
+    function editBlotter(id) {
+        openModal(`partials/blotter-edit.php?id=${id}`);
+    }
+
+    // Delete blotter record
+    function deleteBlotter(id) {
+        const deleteModal = document.getElementById('deleteConfirmModal');
+        deleteModal.style.display = 'block';
+        
+        document.getElementById('confirmDeleteBtn').onclick = function() {
+            window.location.href = 'controllers/blotter-delete.php?id=' + id;
+        };
+        
+        document.getElementById('cancelDeleteBtn').onclick = function() {
+            deleteModal.style.display = 'none';
+        };
+    }
+
+    // Close modals when clicking the X
+    document.querySelectorAll('.close-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = this.closest('.modal');
+            if (modal) modal.style.display = 'none';
+        });
+    });
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    };
+</script>
 <?php require("partials/foot.php"); ?> 

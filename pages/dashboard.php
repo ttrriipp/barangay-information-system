@@ -20,10 +20,6 @@ require("partials/head.php"); ?>
             <p>127</p>
         </div>
         <div class="card">
-            <h2>Total Households</h2>
-            <p>42</p>
-        </div>
-        <div class="card">
             <h2>Senior Citizens</h2>
             <p>23</p>
         </div>

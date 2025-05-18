@@ -104,16 +104,29 @@ function searchBlotters() {
     const searchTerm = searchInput.value.toLowerCase();
     const rows = blotterTableBody.getElementsByTagName('tr');
     
+    // If we're searching, hide the pagination as we're filtering the table directly
+    const pagination = document.querySelector('.pagination');
+    if (pagination) {
+        pagination.style.display = searchTerm.length > 0 ? 'none' : 'flex';
+    }
+    
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
         const cells = row.getElementsByTagName('td');
         let found = false;
         
-        for (let j = 0; j < cells.length; j++) {
-            const cellText = cells[j].textContent.toLowerCase();
-            if (cellText.indexOf(searchTerm) > -1) {
-                found = true;
-                break;
+        // Check for match in blotter number (first column - index 0)
+        const blotterNumber = cells[0].textContent.toLowerCase();
+        if (blotterNumber.indexOf(searchTerm) > -1) {
+            found = true;
+        } else {
+            // Search through each of the other cells
+            for (let j = 1; j < cells.length - 1; j++) { // Skip the last column (actions)
+                const cellText = cells[j].textContent.toLowerCase();
+                if (cellText.indexOf(searchTerm) > -1) {
+                    found = true;
+                    break;
+                }
             }
         }
         
@@ -135,6 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (event.target === deleteModal) {
             deleteModal.style.display = 'none';
+        }
+    });
+    
+    // Listen for messages from iframe content
+    window.addEventListener('message', function(event) {
+        if (event.data === 'closeBlotterModal') {
+            modal.style.display = 'none';
         }
     });
     

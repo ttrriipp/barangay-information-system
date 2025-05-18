@@ -40,25 +40,6 @@ $residentStmt->bind_result($residentTotal);
 $residentStmt->fetch();
 $residentStmt->close();
 
-// Get household count per month (last 12 months)
-$householdCounts = [];
-$householdLabels = [];
-
-$householdStmt = $conn->prepare("
-    SELECT DATE_FORMAT(created_at, '%Y-%m') AS month, COUNT(*) as count
-    FROM households
-    GROUP BY month
-    ORDER BY month ASC
-    LIMIT 12
-");
-$householdStmt->execute();
-$householdStmt->bind_result($month, $count);
-while ($householdStmt->fetch()) {
-    $householdLabels[] = $month;
-    $householdCounts[] = $count;
-}
-$householdStmt->close();
-
 $conn->close();
 
 $style = 'main.css';
@@ -74,11 +55,6 @@ require("partials/head.php"); ?>
         <div class="report-card">
           <h2>Residents by Age Range</h2>
           <canvas id="ageRangeChart" width="400" height="400"></canvas>
-        </div>
-        <!-- Household Line Chart -->
-        <div class="report-card">
-          <h2>Households Over Time</h2>
-          <canvas id="householdLineChart" width="400" height="400"></canvas>
         </div>
         <!-- Total Residents Pie Chart -->
         <div class="report-card">
@@ -104,35 +80,6 @@ const ageRangeChart = new Chart(ctx, {
             ],
             borderColor: '#1a237e',
             borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                precision: 0
-            }
-        }
-    }
-});
-
-const householdLabels = <?= json_encode($householdLabels) ?>;
-const householdData = <?= json_encode($householdCounts) ?>;
-
-const ctx2 = document.getElementById('householdLineChart').getContext('2d');
-const householdLineChart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: householdLabels,
-        datasets: [{
-            label: 'Number of Households',
-            data: householdData,
-            fill: false,
-            borderColor: '#3949ab',
-            backgroundColor: '#3949ab',
-            tension: 0.1
         }]
     },
     options: {

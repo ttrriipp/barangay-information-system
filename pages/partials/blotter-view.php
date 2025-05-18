@@ -149,6 +149,14 @@ $dateResolved = !empty($blotter['date_resolved']) ? date('F d, Y h:i A', strtoti
     max-width: 800px;
     margin: 0 auto;
     color: white;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.blotter-details-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .view-header {
