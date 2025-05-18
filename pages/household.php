@@ -54,7 +54,6 @@ if ($conn) {
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Household ID</th>
                     <th>Head of Household</th>
                     <th>Address</th>
                     <th>Total Members</th>
@@ -65,7 +64,6 @@ if ($conn) {
                 <?php foreach ($households as $index => $household): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
-                        <td><?= htmlspecialchars($household['id']) ?></td>
                         <td><?= htmlspecialchars($household['head_fullname']) ?></td>
                         <td><?= htmlspecialchars($household['address']) ?></td>
                         <td><?= htmlspecialchars($household['member_count']) ?></td>

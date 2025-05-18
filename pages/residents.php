@@ -28,7 +28,15 @@ $residents = [];
 
 if ($conn) {
 
-    $query = "SELECT id, CONCAT(surname, ', ', firstname, ' ', middlename) AS fullname, address, age, sex FROM residents";
+    $query = "SELECT r.id, 
+                  CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
+                  r.address, r.age, r.sex, r.contact,
+                  r.civil_status, r.occupation, r.voter_status,
+                  CONCAT(h.id, ': ', hr.surname, ', ', hr.firstname) AS household_name
+              FROM residents r
+              LEFT JOIN households h ON r.household_id = h.id
+              LEFT JOIN residents hr ON h.head_id = hr.id
+              ORDER BY r.surname, r.firstname";
 
     $result = mysqli_query($conn, $query);
 
@@ -94,6 +102,16 @@ if ($conn) {
 
                     <th>Sex</th>
 
+                    <th>Contact</th>
+
+                    <th>Civil Status</th>
+
+                    <th>Occupation</th>
+
+                    <th>Voter</th>
+
+                    <th>Household</th>
+
                     <th>Actions</th>
 
                 </tr>
@@ -116,9 +134,29 @@ if ($conn) {
 
                         <td><?= htmlspecialchars($resident['sex']) ?></td>
 
+                        <td><?= htmlspecialchars($resident['contact']) ?></td>
+
+                        <td><?= htmlspecialchars($resident['civil_status'] ?? 'N/A') ?></td>
+
+                        <td><?= htmlspecialchars($resident['occupation'] ?? 'N/A') ?></td>
+
+                        <td><?= htmlspecialchars($resident['voter_status'] ?? 'N/A') ?></td>
+
+                        <td><?= htmlspecialchars($resident['household_name'] ?? 'N/A') ?></td>
+
                         <td class="action-buttons">
 
-                            <button class="text-button edit-btn" onclick="editResident(<?= $resident['id'] ?>)">Edit</button>
+                            <button class="icon-button view-btn" onclick="openModal('partials/resident-view.php?id=<?= $resident['id'] ?>')" title="View Resident Details">
+
+                                <i class="fas fa-eye"></i>
+
+                            </button>
+
+                            <button class="icon-button edit-btn" onclick="editResident(<?= $resident['id'] ?>)" title="Edit Resident">
+
+                                <i class="fas fa-edit"></i>
+
+                            </button>
 
                             <button class="icon-button delete-btn" onclick="deleteResident(<?= $resident['id'] ?>)" title="Delete Resident">
 
@@ -143,51 +181,30 @@ if ($conn) {
 
 
 <!-- Modal Dialog -->
-
 <div id="residentModal" class="modal">
-
     <div class="modal-content">
-
         <span class="close-button">&times;</span>
-
         <div class="modal-body">
-
             <!-- Modal content will be loaded here via AJAX -->
-
         </div>
-
     </div>
-
 </div>
 
 
 
 <!-- Delete Confirmation Modal -->
-
 <div id="deleteConfirmModal" class="modal">
-
     <div class="modal-content" style="max-width: 500px;">
-
         <span class="close-button" id="closeDeleteModal">&times;</span>
-
         <div class="delete-confirm-content">
-
             <h3>Confirm Deletion</h3>
-
             <p>Are you sure you want to delete this resident? This action cannot be undone.</p>
-
             <div class="button-group">
-
                 <button id="confirmDeleteBtn" class="delete-btn">Yes, Delete</button>
-
                 <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 

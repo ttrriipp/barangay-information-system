@@ -7,10 +7,25 @@
             $surname = $_POST["surname"];
             $firstname = $_POST["fname"];
             $midname = $_POST["mname"];
+            $birthdate = !empty($_POST["birthdate"]) ? $_POST["birthdate"] : null;
             $age = $_POST["age"];
             $sex = $_POST["sex"];
             $address = $_POST["address"];
-            $contact = $_POST["contact"];
+            $contact = !empty($_POST["contact"]) ? $_POST["contact"] : null;
+            $email = !empty($_POST["email"]) ? $_POST["email"] : null;
+            $civil_status = !empty($_POST["civil_status"]) ? $_POST["civil_status"] : null;
+            $occupation = !empty($_POST["occupation"]) ? $_POST["occupation"] : null;
+            $education = !empty($_POST["education"]) ? $_POST["education"] : null;
+            $voter_status = !empty($_POST["voter_status"]) ? $_POST["voter_status"] : null;
+            $pwd_status = !empty($_POST["pwd_status"]) ? $_POST["pwd_status"] : null;
+            $philhealth_status = !empty($_POST["philhealth_status"]) ? $_POST["philhealth_status"] : null;
+            $fourps_status = !empty($_POST["4ps_status"]) ? $_POST["4ps_status"] : null;
+            $emergency_contact_name = !empty($_POST["emergency_contact_name"]) ? $_POST["emergency_contact_name"] : null;
+            $emergency_contact_number = !empty($_POST["emergency_contact_number"]) ? $_POST["emergency_contact_number"] : null;
+            $blood_type = !empty($_POST["blood_type"]) ? $_POST["blood_type"] : null;
+            $religion = !empty($_POST["religion"]) ? $_POST["religion"] : null;
+            $nationality = !empty($_POST["nationality"]) ? $_POST["nationality"] : "Filipino";
+            $date_of_residency = !empty($_POST["date_of_residency"]) ? $_POST["date_of_residency"] : null;
             $household_id = !empty($_POST["household_id"]) ? $_POST["household_id"] : null;
 
             if ($sex === "not selected") {
@@ -24,11 +39,35 @@
             try {
                 // Use prepared statements to prevent SQL injection
                 if ($household_id === null) {
-                    $stmt = $conn->prepare("INSERT INTO residents (surname, firstname, middlename, age, sex, address, contact) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssisss", $surname, $firstname, $midname, $age, $sex, $address, $contact);
+                    $stmt = $conn->prepare("INSERT INTO residents (
+                        surname, firstname, middlename, birthdate, age, sex, 
+                        address, contact, email, civil_status, occupation, 
+                        education, voter_status, pwd_status, philhealth_status, 
+                        `4ps_status`, emergency_contact_name, emergency_contact_number, 
+                        blood_type, religion, nationality, date_of_residency
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("ssssississssssssssssss", 
+                        $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                        $address, $contact, $email, $civil_status, $occupation, 
+                        $education, $voter_status, $pwd_status, $philhealth_status, 
+                        $fourps_status, $emergency_contact_name, $emergency_contact_number, 
+                        $blood_type, $religion, $nationality, $date_of_residency
+                    );
                 } else {
-                    $stmt = $conn->prepare("INSERT INTO residents (surname, firstname, middlename, age, sex, address, contact, household_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssisssi", $surname, $firstname, $midname, $age, $sex, $address, $contact, $household_id);
+                    $stmt = $conn->prepare("INSERT INTO residents (
+                        surname, firstname, middlename, birthdate, age, sex, 
+                        address, contact, email, civil_status, occupation, 
+                        education, voter_status, pwd_status, philhealth_status, 
+                        `4ps_status`, emergency_contact_name, emergency_contact_number, 
+                        blood_type, religion, nationality, date_of_residency, household_id
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("ssssississssssssssssssi", 
+                        $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                        $address, $contact, $email, $civil_status, $occupation, 
+                        $education, $voter_status, $pwd_status, $philhealth_status, 
+                        $fourps_status, $emergency_contact_name, $emergency_contact_number, 
+                        $blood_type, $religion, $nationality, $date_of_residency, $household_id
+                    );
                 }
 
                 if (!$stmt->execute()) {
@@ -77,10 +116,25 @@
             $surname = $_POST["surname"];
             $firstname = $_POST["fname"];
             $midname = $_POST["mname"];
+            $birthdate = !empty($_POST["birthdate"]) ? $_POST["birthdate"] : null;
             $age = $_POST["age"];
             $sex = $_POST["sex"];
             $address = $_POST["address"];
-            $contact = $_POST["contact"];
+            $contact = !empty($_POST["contact"]) ? $_POST["contact"] : null;
+            $email = !empty($_POST["email"]) ? $_POST["email"] : null;
+            $civil_status = !empty($_POST["civil_status"]) ? $_POST["civil_status"] : null;
+            $occupation = !empty($_POST["occupation"]) ? $_POST["occupation"] : null;
+            $education = !empty($_POST["education"]) ? $_POST["education"] : null;
+            $voter_status = !empty($_POST["voter_status"]) ? $_POST["voter_status"] : null;
+            $pwd_status = !empty($_POST["pwd_status"]) ? $_POST["pwd_status"] : null;
+            $philhealth_status = !empty($_POST["philhealth_status"]) ? $_POST["philhealth_status"] : null;
+            $fourps_status = !empty($_POST["4ps_status"]) ? $_POST["4ps_status"] : null;
+            $emergency_contact_name = !empty($_POST["emergency_contact_name"]) ? $_POST["emergency_contact_name"] : null;
+            $emergency_contact_number = !empty($_POST["emergency_contact_number"]) ? $_POST["emergency_contact_number"] : null;
+            $blood_type = !empty($_POST["blood_type"]) ? $_POST["blood_type"] : null;
+            $religion = !empty($_POST["religion"]) ? $_POST["religion"] : null;
+            $nationality = !empty($_POST["nationality"]) ? $_POST["nationality"] : "Filipino";
+            $date_of_residency = !empty($_POST["date_of_residency"]) ? $_POST["date_of_residency"] : null;
             
             // Get the current household_id before updating
             $checkStmt = $conn->prepare("SELECT household_id FROM residents WHERE id = ?");
@@ -103,11 +157,35 @@
             try {
                 // Update resident record
                 if ($household_id === null) {
-                    $stmt = $conn->prepare("UPDATE residents SET surname=?, firstname=?, middlename=?, age=?, sex=?, address=?, contact=?, household_id=NULL WHERE id=?");
-                    $stmt->bind_param("sssisssi", $surname, $firstname, $midname, $age, $sex, $address, $contact, $id);
+                    $stmt = $conn->prepare("UPDATE residents SET 
+                        surname=?, firstname=?, middlename=?, birthdate=?, age=?, sex=?, 
+                        address=?, contact=?, email=?, civil_status=?, occupation=?, 
+                        education=?, voter_status=?, pwd_status=?, philhealth_status=?, 
+                        `4ps_status`=?, emergency_contact_name=?, emergency_contact_number=?, 
+                        blood_type=?, religion=?, nationality=?, date_of_residency=?, 
+                        household_id=NULL 
+                        WHERE id=?");
+                    $stmt->bind_param("ssssississssssssssssssi",
+                        $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                        $address, $contact, $email, $civil_status, $occupation, 
+                        $education, $voter_status, $pwd_status, $philhealth_status, 
+                        $fourps_status, $emergency_contact_name, $emergency_contact_number, 
+                        $blood_type, $religion, $nationality, $date_of_residency, $id);
                 } else {
-                    $stmt = $conn->prepare("UPDATE residents SET surname=?, firstname=?, middlename=?, age=?, sex=?, address=?, contact=?, household_id=? WHERE id=?");
-                    $stmt->bind_param("sssisssii", $surname, $firstname, $midname, $age, $sex, $address, $contact, $household_id, $id);
+                    $stmt = $conn->prepare("UPDATE residents SET 
+                        surname=?, firstname=?, middlename=?, birthdate=?, age=?, sex=?, 
+                        address=?, contact=?, email=?, civil_status=?, occupation=?, 
+                        education=?, voter_status=?, pwd_status=?, philhealth_status=?, 
+                        `4ps_status`=?, emergency_contact_name=?, emergency_contact_number=?, 
+                        blood_type=?, religion=?, nationality=?, date_of_residency=?, 
+                        household_id=? 
+                        WHERE id=?");
+                    $stmt->bind_param("ssssississssssssssssssii",
+                        $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                        $address, $contact, $email, $civil_status, $occupation, 
+                        $education, $voter_status, $pwd_status, $philhealth_status, 
+                        $fourps_status, $emergency_contact_name, $emergency_contact_number, 
+                        $blood_type, $religion, $nationality, $date_of_residency, $household_id, $id);
                 }
 
                 if (!$stmt->execute()) {
@@ -118,45 +196,36 @@
                 
                 // Handle household_members table synchronization
                 if ($current_household_id !== $household_id) {
-                    // If old household exists, remove the resident from its members
+                    // If there was a previous household, remove from it
                     if ($current_household_id !== null) {
-                        $deleteStmt = $conn->prepare("DELETE FROM household_members WHERE household_id = ? AND resident_id = ?");
-                        $deleteStmt->bind_param("ii", $current_household_id, $id);
-                        
-                        if (!$deleteStmt->execute()) {
-                            throw new Exception("Failed to remove resident from previous household: " . $deleteStmt->error);
-                        }
-                        
-                        $deleteStmt->close();
+                        $removeStmt = $conn->prepare("DELETE FROM household_members WHERE household_id = ? AND resident_id = ?");
+                        $removeStmt->bind_param("ii", $current_household_id, $id);
+                        $removeStmt->execute();
+                        $removeStmt->close();
                     }
                     
-                    // If new household exists, add the resident to its members
+                    // If there's a new household, add to it
                     if ($household_id !== null) {
-                        // Check if entry already exists to prevent duplicates
-                        $checkMemberStmt = $conn->prepare("SELECT id FROM household_members WHERE household_id = ? AND resident_id = ?");
-                        $checkMemberStmt->bind_param("ii", $household_id, $id);
-                        $checkMemberStmt->execute();
-                        $checkResult = $checkMemberStmt->get_result();
+                        $checkMemStmt = $conn->prepare("SELECT id FROM household_members WHERE household_id = ? AND resident_id = ?");
+                        $checkMemStmt->bind_param("ii", $household_id, $id);
+                        $checkMemStmt->execute();
+                        $checkMemResult = $checkMemStmt->get_result();
                         
-                        if ($checkResult->num_rows === 0) {
+                        if ($checkMemResult->num_rows === 0) {
                             $addStmt = $conn->prepare("INSERT INTO household_members (household_id, resident_id) VALUES (?, ?)");
                             $addStmt->bind_param("ii", $household_id, $id);
-                            
-                            if (!$addStmt->execute()) {
-                                throw new Exception("Failed to add resident to new household: " . $addStmt->error);
-                            }
-                            
+                            $addStmt->execute();
                             $addStmt->close();
                         }
                         
-                        $checkMemberStmt->close();
+                        $checkMemStmt->close();
                     }
                 }
                 
-                // Commit the transaction
+                // Commit transaction
                 $conn->commit();
                 
-                header("Location: ../pages/residents.php");
+                header("Location: ../pages/residents.php"); // Redirect to residents.php
                 exit;
             } catch (Exception $e) {
                 // Roll back on error

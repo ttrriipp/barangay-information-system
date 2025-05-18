@@ -294,3 +294,130 @@ th {
         max-width: 100%;
     }
 }
+
+/* Resident Details Modal Styles */
+.details-modal-body {
+    padding: 20px;
+}
+
+.details-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a237e;
+}
+
+.details-header h2 {
+    color: #1a237e;
+    margin: 0;
+}
+
+.details-section {
+    margin-bottom: 30px;
+}
+
+.details-section h3 {
+    color: #1a237e;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-item strong {
+    font-weight: bold;
+    color: #1a237e;
+    margin-bottom: 5px;
+}
+
+.detail-item span {
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.close-btn {
+    background-color: #1a237e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+    background-color: #3949ab;
+}
+
+/* Icon Buttons */
+.icon-button {
+    background-color: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    margin: 0 2px;
+    transition: all 0.3s;
+}
+
+.icon-button i {
+    font-size: 16px;
+}
+
+.icon-button.view-btn {
+    background-color: #00695c;
+}
+
+.icon-button.edit-btn {
+    background-color: #1976d2;
+}
+
+.icon-button.delete-btn {
+    background-color: #d32f2f;
+}
+
+.icon-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.icon-button.view-btn:hover {
+    background-color: #00897b;
+}
+
+.icon-button.edit-btn:hover {
+    background-color: #2196f3;
+}
+
+.icon-button.delete-btn:hover {
+    background-color: #f44336;
+}
+
+@media (max-width: 768px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}

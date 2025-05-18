@@ -65,21 +65,26 @@ $style = 'main.css';
 require("partials/head.php"); ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?php require("partials/sidebar.php") ?>
-<div class="reports-grid">
-    <!-- Age Range Bar Graph -->
-    <div class="report-card">
-      <h2>Residents by Age Range</h2>
-      <canvas id="ageRangeChart" width="400" height="400"></canvas>
+<div class="main-content">
+    <div class="header-container">
+        <h1>Reports</h1>
     </div>
-    <!-- Household Line Chart -->
-    <div class="report-card">
-      <h2>Households Over Time</h2>
-      <canvas id="householdLineChart" width="400" height="400"></canvas>
-    </div>
-    <!-- Total Residents Pie Chart -->
-    <div class="report-card">
-      <h2>Total Residents</h2>
-      <canvas id="residentPieChart" width="400" height="400"></canvas>
+    <div class="reports-grid">
+        <!-- Age Range Bar Graph -->
+        <div class="report-card">
+          <h2>Residents by Age Range</h2>
+          <canvas id="ageRangeChart" width="400" height="400"></canvas>
+        </div>
+        <!-- Household Line Chart -->
+        <div class="report-card">
+          <h2>Households Over Time</h2>
+          <canvas id="householdLineChart" width="400" height="400"></canvas>
+        </div>
+        <!-- Total Residents Pie Chart -->
+        <div class="report-card">
+          <h2>Total Residents</h2>
+          <canvas id="residentPieChart" width="400" height="400"></canvas>
+        </div>
     </div>
 </div>
 <script>
