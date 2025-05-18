@@ -161,9 +161,47 @@ body::before {
     font-weight: 600;
     letter-spacing: 0.5px;
     transition: all 0.3s;
-    margin-top: 8px;
     position: relative;
     overflow: hidden;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.back-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgb(223, 234, 250);
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    text-align: center;
+    flex: 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-container button::before {
@@ -243,24 +281,7 @@ body::before {
     animation: float 6s ease-in-out infinite;
 }
 
-.back-link {
-    text-align: center;
-    margin-top: 20px;
-}
 
-.back-link a {
-    color: #0066ff;
-    text-decoration: none;
-    font-size: 1em ;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.back-link a:hover {
-    color: #4d94ff; 
-    text-decoration: underline;
-}
 
 @keyframes float {
     0% {
@@ -274,6 +295,10 @@ body::before {
     }
 }
 
+#password {
+    margin-bottom:45px;
+
+}
 .username-status, .password-status {
     font-size: 0.85em;
     margin-top: -15px;

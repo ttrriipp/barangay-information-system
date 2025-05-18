@@ -14,11 +14,11 @@
             <label for="retypePassword">Re-type Password:</label>
             <input type="password" id="retypePassword" placeholder="Re-type Password" required>
             
-            <button type="submit" id="submit_button" name="submit">Create Account</button>
+            <div class="button-row">
+                <button type="submit" id="submit_button" name="submit">Create Account</button>
+                <a href="login.php" class="back-button">Back to Login</a>
+            </div>
         </form>
-        <div class="back-link">
-            <a href="login.php" style="color: #0066ff; text-decoration: none; font-size: 1em; display: inline-block; margin-top: 15px;">Back to Login</a>
-        </div>
     </div>
     <div class="logo-container">
         <h2>Cupang West Information Management System</h2>
