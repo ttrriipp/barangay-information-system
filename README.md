@@ -40,10 +40,7 @@ The Barangay Information System is designed to digitize and streamline the admin
 3. Login using one of the following credentials:
    - Admin: 
      - Username: admin
-     - Password: 123
-   - Regular User: 
-     - Username: user
-     - Password: 123
+     - Password: strongpassword
 
 ## System Navigation
 
