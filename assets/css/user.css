@@ -332,6 +332,39 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-admin {
+    display: flex;
+    align-items: center;
+}
+
+.admin-login-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.admin-login-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-login-link:before {
+    content: "🔐";
+    margin-right: 6px;
+    font-size: 0.8rem;
 }
 
 /* User Menu Styles */
@@ -387,10 +420,16 @@ footer {
     .footer-content {
         flex-direction: column;
         text-align: center;
+        gap: 15px;
     }
     
     .footer-info {
-        margin-bottom: 15px;
+        margin-bottom: 0;
+    }
+    
+    .footer-admin {
+        justify-content: center;
+        margin-top: 10px;
     }
 }
 

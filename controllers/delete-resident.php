@@ -29,18 +29,18 @@ if (!$conn) {
 // Sanitize the ID
 $id = intval($_POST['id']);
 
-// Prepare and execute the DELETE query
-$stmt = $conn->prepare("DELETE FROM residents WHERE id = ?");
+// Prepare and execute the ARCHIVE query (set archived = 1 instead of deleting)
+$stmt = $conn->prepare("UPDATE residents SET archived = 1 WHERE id = ? AND archived = 0");
 $stmt->bind_param("i", $id);
 $result = $stmt->execute();
 
-// Check if deletion was successful
+// Check if archiving was successful
 if ($result && $stmt->affected_rows > 0) {
     header('Content-Type: application/json');
-    echo json_encode(["success" => true, "message" => "Resident deleted successfully"]);
+    echo json_encode(["success" => true, "message" => "Resident archived successfully"]);
 } else {
     header('Content-Type: application/json');
-    echo json_encode(["success" => false, "message" => "Failed to delete resident: " . $conn->error]);
+    echo json_encode(["success" => false, "message" => "Failed to archive resident or resident already archived"]);
 }
 
 // Close the connection

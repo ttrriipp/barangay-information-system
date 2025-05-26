@@ -25,18 +25,19 @@ $blotters = [];
 $total_records = 0;
 
 if ($conn) {
-    // Get total number of records
-    $count_query = "SELECT COUNT(*) as total FROM blotter_records";
+    // Get total number of records (excluding archived)
+    $count_query = "SELECT COUNT(*) as total FROM blotter_records WHERE archived = 0";
     $count_result = mysqli_query($conn, $count_query);
     if ($count_result) {
         $count_row = mysqli_fetch_assoc($count_result);
         $total_records = $count_row['total'];
     }
 
-    // Get blotter records with pagination
+    // Get blotter records with pagination (excluding archived)
     $query = "SELECT id, blotter_id, incident_type, complainant_name, respondent_name, 
               incident_date, status, date_reported 
               FROM blotter_records 
+              WHERE archived = 0
               ORDER BY id ASC
               LIMIT $offset, $records_per_page";
     
@@ -117,8 +118,8 @@ $total_pages = ceil($total_records / $records_per_page);
                             <button class="icon-button edit-btn" onclick="editBlotter(<?= $blotter['id'] ?>)" title="Edit Blotter">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="icon-button delete-btn" onclick="deleteBlotter(<?= $blotter['id'] ?>)" title="Delete Blotter">
-                                <i class="fas fa-trash-alt"></i>
+                            <button class="icon-button delete-btn" onclick="deleteBlotter(<?= $blotter['id'] ?>)" title="Archive Blotter">
+                                <i class="fas fa-archive"></i>
                             </button>
                         </td>
                     </tr>
@@ -170,10 +171,10 @@ $total_pages = ceil($total_records / $records_per_page);
     <div class="modal-content" style="max-width: 500px;">
         <span class="close-button" id="closeDeleteModal">&times;</span>
         <div class="delete-confirm-content">
-            <h3>Confirm Deletion</h3>
-            <p>Are you sure you want to delete this blotter record? This action cannot be undone.</p>
+            <h3>Confirm Archive</h3>
+            <p>Are you sure you want to archive this blotter record? Archived records will be hidden from the main list but can be restored later.</p>
             <div class="button-group">
-                <button id="confirmDeleteBtn" class="delete-btn">Yes, Delete</button>
+                <button id="confirmDeleteBtn" class="delete-btn">Yes, Archive</button>
                 <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
             </div>
         </div>

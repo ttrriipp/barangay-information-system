@@ -30,14 +30,14 @@ if (!$conn) {
 
 try {
     // Get certificate details for the success message
-    $query = "SELECT resident_name, certificate_type FROM certificates WHERE id = ?";
+    $query = "SELECT resident_name, certificate_type FROM certificates WHERE id = ? AND archived = 0";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
-        $_SESSION['certificate_error'] = "Certificate record not found";
+        $_SESSION['certificate_error'] = "Certificate record not found or already archived";
         header("Location: ../pages/certificates.php");
         exit();
     }
@@ -47,15 +47,15 @@ try {
     $certificate_type = $certificate['certificate_type'];
     $stmt->close();
     
-    // Delete the certificate record
-    $query = "DELETE FROM certificates WHERE id = ?";
+    // Archive the certificate record (set archived = 1 instead of deleting)
+    $query = "UPDATE certificates SET archived = 1 WHERE id = ? AND archived = 0";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     
-    if ($stmt->execute()) {
-        $_SESSION['certificate_success'] = "Certificate for " . $resident_name . " (" . $certificate_type . ") has been deleted successfully";
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        $_SESSION['certificate_success'] = "Certificate for " . $resident_name . " (" . $certificate_type . ") has been archived successfully";
     } else {
-        $_SESSION['certificate_error'] = "Failed to delete certificate record";
+        $_SESSION['certificate_error'] = "Failed to archive certificate record or record already archived";
     }
     
     $stmt->close();

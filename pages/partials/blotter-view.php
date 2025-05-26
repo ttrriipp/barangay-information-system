@@ -9,9 +9,9 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-// Get blotter information
+// Get blotter information (excluding archived)
 $blotterQuery = $conn->prepare("
-    SELECT * FROM blotter_records WHERE id = ?
+    SELECT * FROM blotter_records WHERE id = ? AND archived = 0
 ");
 $blotterQuery->bind_param("i", $id);
 $blotterQuery->execute();

@@ -12,17 +12,18 @@ if (!isset($_GET['term']) || empty($_GET['term'])) {
 $searchTerm = "%" . mysqli_real_escape_string($conn, $_GET['term']) . "%";
 
 try {
-    // Search blotters in database
+    // Search blotters in database (excluding archived)
     $query = "SELECT id, blotter_id, incident_type, complainant_name, respondent_name, 
               incident_date, status, date_reported 
               FROM blotter_records
-              WHERE 
+              WHERE archived = 0 AND (
                 blotter_id LIKE ? OR
                 incident_type LIKE ? OR
                 complainant_name LIKE ? OR
                 respondent_name LIKE ? OR
                 status LIKE ? OR
                 CAST(id AS CHAR) LIKE ?
+              )
               ORDER BY id ASC";
     
     $stmt = $conn->prepare($query);

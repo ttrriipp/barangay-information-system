@@ -27,14 +27,14 @@ if (!$conn) {
 
 try {
     // Get blotter ID for the success message
-    $query = "SELECT blotter_id FROM blotter_records WHERE id = ?";
+    $query = "SELECT blotter_id FROM blotter_records WHERE id = ? AND archived = 0";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
-        $_SESSION['blotter_error'] = "Blotter record not found.";
+        $_SESSION['blotter_error'] = "Blotter record not found or already archived.";
         header("Location: ../pages/blotter.php");
         exit();
     }
@@ -43,15 +43,15 @@ try {
     $blotter_id = $blotter['blotter_id'];
     $stmt->close();
     
-    // Delete the blotter record
-    $query = "DELETE FROM blotter_records WHERE id = ?";
+    // Archive the blotter record (set archived = 1 instead of deleting)
+    $query = "UPDATE blotter_records SET archived = 1 WHERE id = ? AND archived = 0";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     
-    if ($stmt->execute()) {
-        $_SESSION['blotter_success'] = "Blotter record #" . $blotter_id . " has been deleted successfully.";
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        $_SESSION['blotter_success'] = "Blotter record #" . $blotter_id . " has been archived successfully.";
     } else {
-        $_SESSION['blotter_error'] = "Failed to delete blotter record.";
+        $_SESSION['blotter_error'] = "Failed to archive blotter record or record already archived.";
     }
     
     $stmt->close();

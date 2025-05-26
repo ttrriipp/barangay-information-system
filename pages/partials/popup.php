@@ -6,7 +6,7 @@ $resident = [
     'surname' => '',
     'fname' => '',
     'mname' => '',
-    'age' => '',
+    'birthdate' => '',
     'sex' => '',
     'address' => '',
     'contact' => ''
@@ -16,10 +16,10 @@ $isEdit = false;
 if (isset($_GET['id'])) {
     $isEdit = true;
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT surname, firstname, middlename, age, sex, address, contact FROM residents WHERE id = ?");
+    $stmt = $conn->prepare("SELECT surname, firstname, middlename, birthdate, sex, address, contact FROM residents WHERE id = ? AND archived = 0");
     $stmt->bind_param("i", $id);
     $stmt->execute();
-    $stmt->bind_result($resident['surname'], $resident['fname'], $resident['mname'], $resident['age'], $resident['sex'], $resident['address'], $resident['contact']);
+    $stmt->bind_result($resident['surname'], $resident['fname'], $resident['mname'], $resident['birthdate'], $resident['sex'], $resident['address'], $resident['contact']);
     $stmt->fetch();
     $stmt->close();
 }
@@ -48,8 +48,8 @@ if (isset($_GET['id'])) {
           <label for="middleName">Middle Name:</label>
           <input type="text" id="middleName" placeholder="Middle Name" name="mname" required value="<?= htmlspecialchars($resident['mname']) ?>" />
 
-          <label for="age">Age:</label>
-          <input type="text" id="age" placeholder="Age" name="age" required value="<?= htmlspecialchars($resident['age']) ?>" />
+          <label for="birthdate">Date of Birth:</label>
+          <input type="date" id="birthdate" name="birthdate" required value="<?= htmlspecialchars($resident['birthdate']) ?>" />
 
           <p class="label">Sex:</p>
           <div class="sex">

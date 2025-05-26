@@ -12,13 +12,14 @@ if (!isset($_GET['term']) || empty($_GET['term'])) {
 $searchTerm = "%" . mysqli_real_escape_string($conn, $_GET['term']) . "%";
 
 try {
-    // Search residents in database
+    // Search residents in database (excluding archived)
     $query = "SELECT r.id, 
               CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
-              r.address, r.age, r.sex, r.contact,
-              r.civil_status, r.occupation, r.voter_status
+              r.address, r.birthdate, r.sex, r.contact,
+              r.civil_status, r.occupation, r.voter_status,
+              TIMESTAMPDIFF(YEAR, r.birthdate, CURDATE()) AS age
           FROM residents r
-          WHERE
+          WHERE r.archived = 0 AND (
               r.surname LIKE ? OR
               r.firstname LIKE ? OR
               r.middlename LIKE ? OR
@@ -27,6 +28,7 @@ try {
               r.occupation LIKE ? OR
               CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) LIKE ? OR
               CAST(r.id AS CHAR) LIKE ?
+          )
           ORDER BY r.id ASC";
     
     $stmt = $conn->prepare($query);

@@ -12,15 +12,16 @@ if (!isset($_GET['term']) || empty($_GET['term'])) {
 $searchTerm = "%" . mysqli_real_escape_string($conn, $_GET['term']) . "%";
 
 try {
-    // Search certificates in database
+    // Search certificates in database (excluding archived)
     $query = "SELECT id, resident_name, certificate_type, purpose, issue_date, issued_by
               FROM certificates
-              WHERE 
+              WHERE archived = 0 AND (
                 resident_name LIKE ? OR
                 certificate_type LIKE ? OR
                 purpose LIKE ? OR
                 issued_by LIKE ? OR
                 CAST(id AS CHAR) LIKE ?
+              )
               ORDER BY id ASC";
     
     $stmt = $conn->prepare($query);

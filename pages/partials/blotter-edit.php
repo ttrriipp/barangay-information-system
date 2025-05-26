@@ -11,7 +11,7 @@ $id = intval($_GET['id']);
 
 // Get blotter information
 $blotterQuery = $conn->prepare("
-    SELECT * FROM blotter_records WHERE id = ?
+    SELECT * FROM blotter_records WHERE id = ? AND archived = 0
 ");
 $blotterQuery->bind_param("i", $id);
 $blotterQuery->execute();
@@ -27,7 +27,7 @@ $blotterQuery->close();
 
 // Get residents for dropdown
 $residents = [];
-$residentQuery = "SELECT id, surname, firstname, middlename FROM residents ORDER BY surname, firstname";
+$residentQuery = "SELECT id, surname, firstname, middlename, address, contact FROM residents WHERE archived = 0 ORDER BY surname, firstname";
 $residentResult = mysqli_query($conn, $residentQuery);
 if ($residentResult) {
     while ($row = mysqli_fetch_assoc($residentResult)) {
@@ -82,8 +82,25 @@ if ($residentResult) {
             <h3>Complainant Information</h3>
             <div class="form-row">
                 <div class="form-group full-width">
-                    <label for="complainant_name">Complainant Name*</label>
-                    <input type="text" id="complainant_name" name="complainant_name" value="<?= htmlspecialchars($blotter['complainant_name']) ?>" required>
+                    <label for="complainant_resident_id">Select Complainant from Residents*</label>
+                    <select id="complainant_resident_id" name="complainant_resident_id" onchange="fillComplainantInfo()" required>
+                        <option value="">-- Select Resident --</option>
+                        <?php foreach ($residents as $resident): ?>
+                            <option value="<?= $resident['id'] ?>" 
+                                    data-name="<?= htmlspecialchars($resident['full_name']) ?>"
+                                    data-address="<?= htmlspecialchars($resident['address'] ?? '') ?>"
+                                    data-contact="<?= htmlspecialchars($resident['contact'] ?? '') ?>"
+                                    <?= ($blotter['complainant_resident_id'] == $resident['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($resident['full_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="complainant_name">Complainant Name (Auto-filled)</label>
+                    <input type="text" id="complainant_name" name="complainant_name" value="<?= htmlspecialchars($blotter['complainant_name']) ?>" readonly>
                 </div>
             </div>
             <div class="form-row">
@@ -104,8 +121,25 @@ if ($residentResult) {
             <h3>Respondent Information</h3>
             <div class="form-row">
                 <div class="form-group full-width">
-                    <label for="respondent_name">Respondent Name*</label>
-                    <input type="text" id="respondent_name" name="respondent_name" value="<?= htmlspecialchars($blotter['respondent_name']) ?>" required>
+                    <label for="respondent_resident_id">Select Respondent from Residents*</label>
+                    <select id="respondent_resident_id" name="respondent_resident_id" onchange="fillRespondentInfo()" required>
+                        <option value="">-- Select Resident --</option>
+                        <?php foreach ($residents as $resident): ?>
+                            <option value="<?= $resident['id'] ?>" 
+                                    data-name="<?= htmlspecialchars($resident['full_name']) ?>"
+                                    data-address="<?= htmlspecialchars($resident['address'] ?? '') ?>"
+                                    data-contact="<?= htmlspecialchars($resident['contact'] ?? '') ?>"
+                                    <?= ($blotter['respondent_resident_id'] == $resident['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($resident['full_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="respondent_name">Respondent Name (Auto-filled)</label>
+                    <input type="text" id="respondent_name" name="respondent_name" value="<?= htmlspecialchars($blotter['respondent_name']) ?>" readonly>
                 </div>
             </div>
             <div class="form-row">
@@ -410,4 +444,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Function to fill complainant information when resident is selected
+function fillComplainantInfo() {
+    const select = document.getElementById('complainant_resident_id');
+    const selectedOption = select.options[select.selectedIndex];
+    
+    if (selectedOption.value) {
+        document.getElementById('complainant_name').value = selectedOption.getAttribute('data-name') || '';
+        document.getElementById('complainant_address').value = selectedOption.getAttribute('data-address') || '';
+        document.getElementById('complainant_contact').value = selectedOption.getAttribute('data-contact') || '';
+    } else {
+        // Clear fields if no resident selected
+        document.getElementById('complainant_name').value = '';
+        document.getElementById('complainant_address').value = '';
+        document.getElementById('complainant_contact').value = '';
+    }
+}
+
+// Function to fill respondent information when resident is selected
+function fillRespondentInfo() {
+    const select = document.getElementById('respondent_resident_id');
+    const selectedOption = select.options[select.selectedIndex];
+    
+    if (selectedOption.value) {
+        document.getElementById('respondent_name').value = selectedOption.getAttribute('data-name') || '';
+        document.getElementById('respondent_address').value = selectedOption.getAttribute('data-address') || '';
+        document.getElementById('respondent_contact').value = selectedOption.getAttribute('data-contact') || '';
+    } else {
+        // Clear fields if no resident selected
+        document.getElementById('respondent_name').value = '';
+        document.getElementById('respondent_address').value = '';
+        document.getElementById('respondent_contact').value = '';
+    }
+}
 </script> 

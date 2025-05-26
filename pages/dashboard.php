@@ -10,7 +10,7 @@ $conn = getDatabaseConnection();
 
 // Get counts and statistics
 $totalResidents = 0;
-$query = "SELECT COUNT(*) as total FROM residents";
+$query = "SELECT COUNT(*) as total FROM residents WHERE archived = 0";
 $result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -39,7 +39,7 @@ $totalHouseholds = round($totalResidents / 3);
 // Get gender distribution
 $maleCount = 0;
 $femaleCount = 0;
-$query = "SELECT sex, COUNT(*) as count FROM residents GROUP BY sex";
+$query = "SELECT sex, COUNT(*) as count FROM residents WHERE archived = 0 GROUP BY sex";
 $result = mysqli_query($conn, $query);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -62,7 +62,7 @@ $ageRanges = [
 
 $ageCounts = [];
 foreach ($ageRanges as $label => $range) {
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM residents WHERE age >= ? AND age <= ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM residents WHERE archived = 0 AND TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) >= ? AND TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) <= ?");
     $min = $range[0];
     $max = $range[1];
     $stmt->bind_param("ii", $min, $max);
@@ -76,7 +76,7 @@ foreach ($ageRanges as $label => $range) {
 // Get civil status distribution
 $civilStatusData = [];
 $civilStatusLabels = [];
-$query = "SELECT civil_status, COUNT(*) as count FROM residents GROUP BY civil_status";
+$query = "SELECT civil_status, COUNT(*) as count FROM residents WHERE archived = 0 GROUP BY civil_status";
 $result = mysqli_query($conn, $query);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {

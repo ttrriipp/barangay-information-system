@@ -36,10 +36,10 @@ try {
     
     // Get household members
     $membersQuery = $conn->prepare("
-        SELECT r.surname, r.firstname, r.middlename, r.age, r.sex, 
+        SELECT r.surname, r.firstname, r.middlename, TIMESTAMPDIFF(YEAR, r.birthdate, CURDATE()) AS age, r.sex, 
                (CASE WHEN r.id = (SELECT head_id FROM households WHERE id = ?) THEN 1 ELSE 0 END) as is_head
         FROM residents r
-        WHERE r.household_id = ?
+        WHERE r.household_id = ? AND r.archived = 0
         ORDER BY is_head DESC, r.surname, r.firstname
     ");
     $membersQuery->bind_param("ii", $id, $id);

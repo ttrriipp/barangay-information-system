@@ -5,7 +5,7 @@ session_start();
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $userlog = $_POST['user'];
         $passlog = $_POST['pass'];
-        $accountType = isset($_POST['accountType']) ? $_POST['accountType'] : "user"; // Check if accountType exists
+        $accountType = isset($_POST['accountType']) ? $_POST['accountType'] : "admin"; // Default to admin
         
         if(empty($userlog) || empty($passlog)){
             echo "<script>alert('Please input the correct credentials!')</script>";
@@ -21,21 +21,17 @@ session_start();
 
             $statement->bind_result($id, $username, $password, $role);
             if($statement->fetch()){
-                // Check if the selected account type matches the user's role
-                if($accountType !== $role){
-                    echo "<script>alert('You do not have access to this account type!')</script>";
+                // Only allow admin login
+                if($role !== "admin"){
+                    echo "<script>alert('Access denied! Admin credentials required.')</script>";
                 } 
                 else if (password_verify($passlog, $password)){
                     $_SESSION["id"] = $id;
                     $_SESSION["username"] = $username;
                     $_SESSION["role"] = $role;
                     
-                    // Redirect based on user role
-                    if($role === "admin") {
-                        header("Location: ../pages/dashboard.php");
-                    } else {
-                        header("Location: ../pages/user.php");
-                    }
+                    // Redirect to admin dashboard
+                    header("Location: ../pages/dashboard.php");
                     exit();
                 } 
                 else { 

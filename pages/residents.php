@@ -29,20 +29,22 @@ $residents = [];
 $total_records = 0;
 
 if ($conn) {
-    // Get total number of records
-    $count_query = "SELECT COUNT(*) as total FROM residents";
+    // Get total number of records (excluding archived)
+    $count_query = "SELECT COUNT(*) as total FROM residents WHERE archived = 0";
     $count_result = mysqli_query($conn, $count_query);
     if ($count_result) {
         $count_row = mysqli_fetch_assoc($count_result);
         $total_records = $count_row['total'];
     }
 
-    // Get residents with pagination
+    // Get residents with pagination (excluding archived)
     $query = "SELECT r.id, 
               CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
-              r.address, r.age, r.sex, r.contact,
-              r.civil_status, r.occupation, r.voter_status
+              r.address, r.birthdate, r.sex, r.contact,
+              r.civil_status, r.occupation, r.voter_status,
+              TIMESTAMPDIFF(YEAR, r.birthdate, CURDATE()) AS age
           FROM residents r
+          WHERE r.archived = 0
           ORDER BY r.id ASC
           LIMIT $offset, $records_per_page";
 
@@ -158,9 +160,9 @@ $total_pages = ceil($total_records / $records_per_page);
 
                             </button>
 
-                            <button class="icon-button delete-btn" onclick="deleteResident(<?= $resident['id'] ?>)" title="Delete Resident">
+                            <button class="icon-button delete-btn" onclick="deleteResident(<?= $resident['id'] ?>)" title="Archive Resident">
 
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-archive"></i>
 
                             </button>
 
@@ -225,10 +227,10 @@ $total_pages = ceil($total_records / $records_per_page);
     <div class="modal-content" style="max-width: 500px;">
         <span class="close-button" id="closeDeleteModal">&times;</span>
         <div class="delete-confirm-content">
-            <h3>Confirm Deletion</h3>
-            <p>Are you sure you want to delete this resident? This action cannot be undone.</p>
+            <h3>Confirm Archive</h3>
+            <p>Are you sure you want to archive this resident? Archived residents will be hidden from the main list but can be restored later.</p>
             <div class="button-group">
-                <button id="confirmDeleteBtn" class="delete-btn">Yes, Delete</button>
+                <button id="confirmDeleteBtn" class="delete-btn">Yes, Archive</button>
                 <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
             </div>
         </div>

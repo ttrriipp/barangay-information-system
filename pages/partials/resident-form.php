@@ -31,11 +31,11 @@ $isEdit = false;
 if (isset($_GET['id'])) {
     $isEdit = true;
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT surname, firstname, middlename, birthdate, age, sex, address, contact, email, 
+    $stmt = $conn->prepare("SELECT surname, firstname, middlename, birthdate, TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age, sex, address, contact, email, 
                           civil_status, occupation, education, voter_status, pwd_status, 
                           philhealth_status, 4ps_status, emergency_contact_name, emergency_contact_number,
                           blood_type, religion, nationality, date_of_residency 
-                          FROM residents WHERE id = ?");
+                          FROM residents WHERE id = ? AND archived = 0");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->bind_result(
@@ -76,10 +76,7 @@ if (isset($_GET['id'])) {
             <input type="text" id="middleName" placeholder="Middle Name" name="mname" value="<?= htmlspecialchars($resident['mname']) ?>" />
 
             <label for="birthdate">Date of Birth:</label>
-            <input type="date" id="birthdate" name="birthdate" value="<?= htmlspecialchars($resident['birthdate']) ?>" onchange="calculateAge()" />
-
-            <label for="age">Age:</label>
-            <input type="number" id="age" placeholder="Age" name="age" required min="0" max="120" value="<?= htmlspecialchars($resident['age']) ?>" />
+            <input type="date" id="birthdate" name="birthdate" value="<?= htmlspecialchars($resident['birthdate']) ?>" />
 
             <label for="sex">Sex:</label>
             <select id="sex" name="sex" required>
@@ -192,25 +189,7 @@ if (isset($_GET['id'])) {
     </div>
 </div> 
 
-<script>
-function calculateAge() {
-    const birthdateInput = document.getElementById('birthdate');
-    const ageInput = document.getElementById('age');
-    
-    if (birthdateInput.value) {
-        const birthdate = new Date(birthdateInput.value);
-        const today = new Date();
-        let age = today.getFullYear() - birthdate.getFullYear();
-        const monthDiff = today.getMonth() - birthdate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
-            age--;
-        }
-        
-        ageInput.value = age;
-    }
-}
-</script>
+
 
 <style>
 .modal-content-header {

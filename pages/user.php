@@ -1,10 +1,5 @@
 <?php 
     session_start();
-    // Check if user is logged in
-    if (!isset($_SESSION["username"]) || $_SESSION["role"] !== "user") {
-        header("Location: login.php");
-        exit();
-    }
     $style ='user.css';
     $hide_sidebar = true;
     require('partials/head.php'); ?>
@@ -25,9 +20,6 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li class="user-menu">
-              <a href="javascript:void(0);" onclick="window.location.href='../controllers/logout.php'" class="logout-btn">Logout</a>
-            </li>
           </ul>
         </nav>
       </div>
@@ -258,6 +250,9 @@
           </div>
           <div class="footer-contact">
             <p>Contact us: (04) 1234-456 • barangaycupangwest@gmail.com</p>
+          </div>
+          <div class="footer-admin">
+            <a href="../controllers/login.php" class="admin-login-link">Staff Portal</a>
           </div>
         </div>
       </div>

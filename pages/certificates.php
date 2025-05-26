@@ -28,8 +28,9 @@ $total_records = 0;
 if ($conn) {
     $query = "SELECT r.id, 
               CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname, 
-              r.address, r.sex, r.age, r.civil_status
+              r.address, r.sex, TIMESTAMPDIFF(YEAR, r.birthdate, CURDATE()) AS age, r.civil_status
               FROM residents r
+              WHERE r.archived = 0
               ORDER BY r.surname, r.firstname";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -38,17 +39,18 @@ if ($conn) {
         }
     }
     
-    // Get total number of certificate records
-    $count_query = "SELECT COUNT(*) as total FROM certificates";
+    // Get total number of certificate records (excluding archived)
+    $count_query = "SELECT COUNT(*) as total FROM certificates WHERE archived = 0";
     $count_result = mysqli_query($conn, $count_query);
     if ($count_result) {
         $count_row = mysqli_fetch_assoc($count_result);
         $total_records = $count_row['total'];
     }
     
-    // Fetch certificate records with pagination
+    // Fetch certificate records with pagination (excluding archived)
     $query = "SELECT id, resident_name, certificate_type, purpose, issue_date, issued_by
               FROM certificates
+              WHERE archived = 0
               ORDER BY id ASC
               LIMIT $offset, $records_per_page";
     $result = mysqli_query($conn, $query);
@@ -105,8 +107,8 @@ $total_pages = ceil($total_records / $records_per_page);
                             <button class="icon-button view-btn" onclick="printCertificate(<?= $certificate['id'] ?>)" title="Print Certificate">
                                 <i class="fas fa-print"></i>
                             </button>
-                            <button class="icon-button delete-btn" onclick="deleteCertificate(<?= $certificate['id'] ?>)" title="Delete Certificate">
-                                <i class="fas fa-trash-alt"></i>
+                            <button class="icon-button delete-btn" onclick="deleteCertificate(<?= $certificate['id'] ?>)" title="Archive Certificate">
+                                <i class="fas fa-archive"></i>
                             </button>
                         </td>
                     </tr>
@@ -189,10 +191,10 @@ $total_pages = ceil($total_records / $records_per_page);
     <div class="modal-content" style="max-width: 500px;">
         <span class="close-button" id="closeDeleteModal">&times;</span>
         <div class="delete-confirm-content">
-            <h3>Confirm Deletion</h3>
-            <p>Are you sure you want to delete this certificate record? This action cannot be undone.</p>
+            <h3>Confirm Archive</h3>
+            <p>Are you sure you want to archive this certificate record? Archived certificates will be hidden from the main list but can be restored later.</p>
             <div class="button-group">
-                <button id="confirmDeleteBtn" class="delete-btn">Yes, Delete</button>
+                <button id="confirmDeleteBtn" class="delete-btn">Yes, Archive</button>
                 <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
             </div>
         </div>

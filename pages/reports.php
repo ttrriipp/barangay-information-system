@@ -28,7 +28,7 @@ $ageRanges = [
 
 $ageCounts = [];
 foreach ($ageRanges as $label => $range) {
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM residents WHERE age >= ? AND age <= ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM residents WHERE archived = 0 AND TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) >= ? AND TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) <= ?");
     $min = $range[0];
     $max = $range[1];
     $stmt->bind_param("ii", $min, $max);
@@ -43,7 +43,7 @@ foreach ($ageRanges as $label => $range) {
 $genderData = [];
 $genderLabels = [];
 $genderCounts = [];
-$query = "SELECT sex, COUNT(*) as count FROM residents GROUP BY sex";
+$query = "SELECT sex, COUNT(*) as count FROM residents WHERE archived = 0 GROUP BY sex";
 $result = mysqli_query($conn, $query);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -56,7 +56,7 @@ if ($result) {
 $civilStatusData = [];
 $civilStatusLabels = [];
 $civilStatusCounts = [];
-$query = "SELECT civil_status, COUNT(*) as count FROM residents GROUP BY civil_status";
+$query = "SELECT civil_status, COUNT(*) as count FROM residents WHERE archived = 0 GROUP BY civil_status";
 $result = mysqli_query($conn, $query);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -71,7 +71,7 @@ if ($result) {
 $educationData = [];
 $educationLabels = [];
 $educationCounts = [];
-$query = "SELECT education, COUNT(*) as count FROM residents GROUP BY education";
+$query = "SELECT education, COUNT(*) as count FROM residents WHERE archived = 0 GROUP BY education";
 $result = mysqli_query($conn, $query);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {

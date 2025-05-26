@@ -8,7 +8,6 @@
             $firstname = $_POST["fname"];
             $midname = $_POST["mname"];
             $birthdate = !empty($_POST["birthdate"]) ? $_POST["birthdate"] : null;
-            $age = $_POST["age"];
             $sex = $_POST["sex"];
             $address = $_POST["address"];
             $contact = !empty($_POST["contact"]) ? $_POST["contact"] : null;
@@ -38,14 +37,14 @@
             try {
                 // Use prepared statements to prevent SQL injection
                 $stmt = $conn->prepare("INSERT INTO residents (
-                    surname, firstname, middlename, birthdate, age, sex, 
+                    surname, firstname, middlename, birthdate, sex, 
                     address, contact, email, civil_status, occupation, 
                     education, voter_status, pwd_status, philhealth_status, 
                     `4ps_status`, emergency_contact_name, emergency_contact_number, 
                     blood_type, religion, nationality, date_of_residency
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssississssssssssssss", 
-                    $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssssssssssssssssssss", 
+                    $surname, $firstname, $midname, $birthdate, $sex, 
                     $address, $contact, $email, $civil_status, $occupation, 
                     $education, $voter_status, $pwd_status, $philhealth_status, 
                     $fourps_status, $emergency_contact_name, $emergency_contact_number, 
@@ -75,7 +74,6 @@
             $firstname = $_POST["fname"];
             $midname = $_POST["mname"];
             $birthdate = !empty($_POST["birthdate"]) ? $_POST["birthdate"] : null;
-            $age = $_POST["age"];
             $sex = $_POST["sex"];
             $address = $_POST["address"];
             $contact = !empty($_POST["contact"]) ? $_POST["contact"] : null;
@@ -105,14 +103,14 @@
             try {
                 // Update resident record
                 $stmt = $conn->prepare("UPDATE residents SET 
-                    surname=?, firstname=?, middlename=?, birthdate=?, age=?, sex=?, 
+                    surname=?, firstname=?, middlename=?, birthdate=?, sex=?, 
                     address=?, contact=?, email=?, civil_status=?, occupation=?, 
                     education=?, voter_status=?, pwd_status=?, philhealth_status=?, 
                     `4ps_status`=?, emergency_contact_name=?, emergency_contact_number=?, 
                     blood_type=?, religion=?, nationality=?, date_of_residency=?
                     WHERE id=?");
-                $stmt->bind_param("ssssississssssssssssssi",
-                    $surname, $firstname, $midname, $birthdate, $age, $sex, 
+                $stmt->bind_param("sssssssssssssssssssssi",
+                    $surname, $firstname, $midname, $birthdate, $sex, 
                     $address, $contact, $email, $civil_status, $occupation, 
                     $education, $voter_status, $pwd_status, $philhealth_status, 
                     $fourps_status, $emergency_contact_name, $emergency_contact_number, 

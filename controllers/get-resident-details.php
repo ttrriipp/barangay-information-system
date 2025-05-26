@@ -21,7 +21,7 @@ try {
             r.middlename,
             CONCAT(r.surname, ', ', r.firstname, ' ', r.middlename) AS fullname,
             r.birthdate,
-            r.age, 
+            TIMESTAMPDIFF(YEAR, r.birthdate, CURDATE()) AS age, 
             r.sex, 
             r.address, 
             r.contact,
@@ -44,7 +44,7 @@ try {
         FROM residents r
         LEFT JOIN households h ON r.household_id = h.id
         LEFT JOIN residents hr ON h.head_id = hr.id
-        WHERE r.id = ?
+        WHERE r.id = ? AND r.archived = 0
     ");
     $query->bind_param("i", $id);
     $query->execute();
