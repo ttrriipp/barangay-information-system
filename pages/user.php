@@ -14,13 +14,14 @@
           />
           <h1>Barangay Cupang West</h1>
         </div>
-        <nav>
-          <ul>
+        <nav style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <ul style="display: flex; gap: 20px; margin: 0;">
             <li><a href="#home" class="active">Home</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
+          <a href="../controllers/login.php" class="admin-login-link staff-portal-btn">Staff Portal</a>
         </nav>
       </div>
     </header>
@@ -251,13 +252,29 @@
           <div class="footer-contact">
             <p>Contact us: (04) 1234-456 • barangaycupangwest@gmail.com</p>
           </div>
-          <div class="footer-admin">
-            <a href="../controllers/login.php" class="admin-login-link">Staff Portal</a>
-          </div>
         </div>
       </div>
     </footer>
 
     <script src="../assets/js/user.js"></script>
+    <style>
+    .staff-portal-btn {
+      background: #4e73df;
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      margin-left: 30px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(78,115,223,0.08);
+      transition: background 0.2s, color 0.2s;
+      border: none;
+      display: inline-block;
+    }
+    .staff-portal-btn:hover {
+      background: #2e59d9;
+      color: #fff;
+    }
+    </style>
   </body>
 </html>
