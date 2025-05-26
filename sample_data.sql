@@ -165,7 +165,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(1, 'admin', '$2y$10$WFDv3c5RHpq11LreTN9ylOJAiz9tY9pCoGcF/G9B3Kw4j17x31aiG', 'admin');
+(1, 'admin', '$2y$10$0myZosMx/CX3cD3Mk0n/Qeg7lV4FN3/KAaIL5nMk10X4qmr28DkXC', 'admin');
 
 -- --------------------------------------------------------
 

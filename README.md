@@ -25,9 +25,7 @@ The Barangay Information System is designed to digitize and streamline the admin
 1. Install XAMPP from [https://www.apachefriends.org/](https://www.apachefriends.org/)
 2. Start the Apache and MySQL services from the XAMPP Control Panel
 3. Clone or download this repository into the `htdocs` folder of your XAMPP installation:
-   ```
    C:\xampp\htdocs\barangay-information-system
-   ```
 4. Create the database and import sample data:
    - Open a web browser and navigate to `http://localhost/phpmyadmin`
    - Create a new database named `barangay_infomanage`
@@ -51,11 +49,6 @@ The Barangay Information System is designed to digitize and streamline the admin
 - **Certificates**: Issue and track certificates
 - **Blotters**: Record and manage incident reports
 - **Reports**: Generate and export various reports
-
-### User Access
-
-- **User Dashboard**: View basic information
-- **Request Certificates**: Submit certificate requests
 
 ## Database Structure
 
